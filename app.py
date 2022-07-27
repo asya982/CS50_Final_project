@@ -1,6 +1,19 @@
 from flask import Flask, render_template
-g = 0
-x = 0
 
-print("dimka zaika")
+app = Flask(__name__)
 
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/register')
+def registration():
+    return render_template('register.html')
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5001)
