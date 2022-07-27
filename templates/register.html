@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+    <h5 style="padding-bottom:10px">Password must contain digits.</h5>
+    <form action="/register" method="post">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="username" name="username" placeholder="Username" type="text">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" id="confirmation" name="confirmation" placeholder="Confirmation" type="password">
+        </div>
+        <button class="button-37 orange" type="submit">Register</button>
+        <a href="/login" class="button-28 login">Log in</a>
+    </form>
+{% endblock %}
