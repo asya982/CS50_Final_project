@@ -5,5 +5,13 @@
 {% endblock %}
 
 {% block main %}
-    <h2 style="margin-top: 20%">generated!!!!!!!!</h2>
+    <div style="margin-top: 15%">
+        {% for i in film %}
+            <h1> {{ i["title"] }} </h1>
+            <h1> {{ i["rating"] }}</h1>
+            <h1> {{ i["stie_rating"] }}</h1>
+            <h1> {{ i["custom_genre"] }}</h1>
+            <img src="{{ i['image'] }}" alt="W3Schools.com">
+        {% endfor %}
+    </div>
 {% endblock %}

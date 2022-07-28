@@ -93,7 +93,8 @@ def logout():
 
 @app.route('/generate', methods=['POST'])
 def generate():
-    return render_template('generated.html')
+    film = db.execute("SELECT * FROM movies WHERE id = 1")
+    return render_template('generated.html', film=film)
 
 @app.route('/messages')
 def messages():
