@@ -5,7 +5,9 @@
 {% endblock %}
 
 {% block main %}
-<div class="d-grid gap-2 row col-6 mx-auto" id="generate">
-    <button class="fill"><a class="nav-link" href="/generate">Generate</a></button>
-</div>
+<form action="/generate" method="post">
+    <div class="d-grid gap-2 row col-6 mx-auto" id="generate">
+        <button class="fill" type="submit">Generate</button>
+    </div>
+</form>
 {% endblock %}
