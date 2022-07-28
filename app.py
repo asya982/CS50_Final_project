@@ -91,9 +91,13 @@ def logout():
     # Redirect user to login form
     return redirect("/")
 
-@app.route('/generate')
+@app.route('/generate', methods=['GET', 'POST'])
 def generate():
-    return render_template('generate.html')
+    if request.method == 'POST':
+        
+        return render_template('generated.html')
+    else:
+        return render_template('generate.html')
 
 @app.route('/messages')
 def messages():
