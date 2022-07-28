@@ -98,6 +98,7 @@ def generate():
 
 @app.route('/messages')
 def messages():
+    
     return redirect('/')
 
 if __name__ == '__main__':
