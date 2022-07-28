@@ -6,6 +6,9 @@ from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
+
+from helpers import apology, login_required
+
 app = Flask(__name__)
 
 # Ensure templates are auto-reloaded
@@ -96,9 +99,31 @@ def generate():
     film = db.execute("SELECT * FROM movies WHERE id = 1")
     return render_template('generated.html', film=film)
 
+@app.route("/changepass", methods=["GET", "POST"])
+@login_required
+def changePass():
+    if request.method == 'POST':
+        if not request.form.get("oldpassword"):
+            return render_template("fail.html")
+        elif not check_password_hash(db.execute("SELECT hash FROM users WHERE id = ?", session["user_id"])[0]['hash'], request.form.get("oldpassword")):
+            return render_template("fail.html")
+        elif not request.form.get("password"):
+            return render_template("fail.html")
+        elif request.form.get("password") != request.form.get("confirmation"):
+            return render_template("fail.html")
+        elif not re.search(r"[\d]", request.form.get("password")):
+            return render_template("fail.html")
+        db.execute("UPDATE users SET hash = ? WHERE id = ?", generate_password_hash(
+            request.form.get("password")), session["user_id"])
+        flash("Your password has changed!")
+        return redirect("/")
+    else:
+        return render_template('changepass.html')
+
 @app.route('/messages')
+@login_required
 def messages():
-    
+
     return redirect('/')
 
 if __name__ == '__main__':
