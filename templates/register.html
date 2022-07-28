@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block main %}
+<div style="margin-top: 10%;">
     <h5 style="padding-bottom:10px">Password must contain digits.</h5>
     <form action="/register" method="post">
         <div class="mb-3">
@@ -19,4 +20,5 @@
         <button class="button-37 orange" type="submit">Register</button>
         <a href="/login" class="button-28 login">Log in</a>
     </form>
+</div>
 {% endblock %}

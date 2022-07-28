@@ -78,11 +78,87 @@
 }
 
 .orange {
-  background-color: #FF6700;
-  border: 1px solid #FF6700;
+  background-color: #FFC107;
+  border: 1px solid #FFC107;
 }
 
 .login {
   margin-left: 5px;
 }
 
+#text{
+  font-family: 'Monoton', cursive;
+}
+
+#generate{
+  margin-top: 15%;
+  background-color: #f8c460;
+}
+
+.offcanvas-header, #offcanvasNavbarLabel{
+  background-color: black;
+  font-family:'DM Serif Display', serif;
+  font-size: 2.5vw;
+  color: #f8c460;
+  text-align: center;
+
+
+}
+
+
+.offcanvas-body{
+  font-size: 2vw;
+  font-family:'DM Serif Display', serif;
+  background: white;
+}
+
+
+a:link {color:#8b7055;}
+a:visited {color:#8b7055;}
+a:hover {opacity:0.3;}
+a{
+  text-decoration:none;
+}
+
+#list{
+  list-style-type: none;
+  background: #f1e5dc;
+  padding: 20px;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+}
+
+.down{
+  position: absolute;
+  bottom: 20px;
+}
+
+.fill {
+  font-size: 5vw;
+  font-family: 'DM Serif Display', serif;
+  font-weight: 200;
+  letter-spacing: 1px;
+  padding: 13px 50px 13px;
+  outline: 0;
+  border: 1px solid black;
+  cursor: pointer;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.fill::after {
+  content: "";
+  background-color: #ffe54c;
+  width: 100%;
+  z-index: -1;
+  position: absolute;
+  height: 100%;
+  top: 7px;
+  left: 7px;
+  transition: 0.2s;
+}
+
+.fill:hover::after {
+  top: 0px;
+  left: 0px;
+}
