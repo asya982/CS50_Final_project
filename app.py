@@ -91,6 +91,10 @@ def logout():
     # Redirect user to login form
     return redirect("/")
 
+@app.route('/generate')
+def generate():
+    return render_template('generate.html')
+
 @app.route('/messages')
 def messages():
     return redirect('/')
