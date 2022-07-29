@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Change password
+{% endblock %}
+
+{% block main %}
+<div style="margin-top: 10%;">
+    <h5 style="padding-bottom:10px">Password must contain digits.</h5>
+    <form action="/changepass" method="post">
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" id="oldpassword" name="oldpassword" placeholder="Old password" type="password">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="New password" type="password">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" id="confirmation" name="confirmation" placeholder="Confirmation" type="password">
+        </div>
+        <button class="button-37 orange" type="submit">Change password</button>
+    </form>
+</div>
+{% endblock %}
