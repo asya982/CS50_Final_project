@@ -24,7 +24,8 @@ db = SQL("sqlite:///movie4night.db")
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    genres = db.execute("SELECT DISTINCT custom_genre FROM  movies")
+    return render_template('index.html', genres = genres)
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
