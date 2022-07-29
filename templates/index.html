@@ -9,11 +9,13 @@
     <div class="d-grid gap-2 row col-6 mx-auto" id="generate">
         <button class="fill" type="submit">Generate</button>
     </div>
-    <select id="genres" name="genres" class="form-select" aria-label=".form-select-lg example" >
-        <option selected>Обрати жанр</option>
-        {% for genre in genres %}
-            <option id="{{genre['custom_genre']}}" name="{{genre['custom_genre']}}" value="{{genre['custom_genre']}}">{{genre['custom_genre']}}</option>
-        {% endfor %}
-    </select>
+    <div class="d-grid gap-4 col-3 mx-auto" style="padding-top: 3%;">
+        <select id="genres" name="genres" class="form-select" aria-label=".form-select" >
+            <option selected>Pick a genre</option>
+            {% for genre in genres %}
+                <option id="{{genre['custom_genre']}}" name="{{genre['custom_genre']}}" value="{{genre['custom_genre']}}">{{genre['custom_genre']}}</option>
+            {% endfor %}
+        </select>
+    </div>
 </form>
 {% endblock %}

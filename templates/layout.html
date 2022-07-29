@@ -25,10 +25,10 @@
 
     </head>
 
-    <body style="background-color: #FFF7DA; ">
+    <body style="background-color: #FDFBF3; ">
         <nav class="navbar fixed-top">
             <div class="container-fluid">
-              <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" id="text" style="color:white">
+              <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" id="text" style="color:black">
                Movie4Night <span class="icon"><img src="static/img/movie-ticket.png" alt="ticket" style="position:relative; top:-5px;"></span>
               </button>
               <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -58,9 +58,11 @@
               </div>
             </div>
           </nav>
-
+          <main class="container-fluid py-5 text-center">
+            {% block main %}{% endblock %}
+        </main>
         {% if get_flashed_messages() %}
-        <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="margin: 60%, auto;">
+        <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="margin-left: 75%;">
             <div class="toast-header">
               <strong class="me-auto">Movie4Night</strong>
               <small>now</small>
@@ -69,14 +71,12 @@
               </button>
             </div>
             <div class="toast-body">
-                {{ get_flashed_messages() | join(" ") }}
+                {{ get_flashed_messages() | join(" ") }} 150322
             </div>
           </div>    
         {% endif %}
 
-        <main class="container-fluid py-5 text-center">
-            {% block main %}{% endblock %}
-        </main>
+
 
     </body>
 

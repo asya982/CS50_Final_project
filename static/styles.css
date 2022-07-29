@@ -109,13 +109,13 @@
 .offcanvas-body{
   font-size: 2vw;
   font-family:'DM Serif Display', serif;
-  background: white;
+  background: #f1e5dc;
 }
 
 
-a:link {color:#8b7055;}
-a:visited {color:#8b7055;}
-a:hover {opacity:0.3;}
+a:link {color:black;}
+a:visited {color:black;}
+a:hover {color: #808080 !important;}
 a{
   text-decoration:none;
 }
@@ -162,3 +162,18 @@ a{
   top: 0px;
   left: 0px;
 }
+
+#genres{
+  background-color: #FFC107;
+  color: black;
+  border-radius: 5px;
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.2vw;
+}
+
+option{background-color: #f1e5dc;}
+.navbar-toggler:active,.navbar-toggler:focus{
+  outline: none !important;
+  box-shadow: none;
+}
+
