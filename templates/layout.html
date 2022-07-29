@@ -58,7 +58,7 @@
               </div>
             </div>
           </nav>
-          <main class="container-fluid py-5 text-center">
+        <main class="container-fluid py-5 text-center">
             {% block main %}{% endblock %}
         </main>
         {% if get_flashed_messages() %}
@@ -71,7 +71,7 @@
               </button>
             </div>
             <div class="toast-body">
-                {{ get_flashed_messages() | join(" ") }} 150322
+                {{ get_flashed_messages() | join(" ") }} 
             </div>
           </div>    
         {% endif %}
