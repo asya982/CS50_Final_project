@@ -25,10 +25,10 @@
 
     </head>
 
-    <body>
-        <nav class="navbar bg-dark fixed-top">
+    <body style="background-color: #FFF7DA; ">
+        <nav class="navbar fixed-top">
             <div class="container-fluid">
-              <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" id="text" style="color:white">
+              <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" id="text" style="color:black">
                Movie4Night<span class="icon"><img src="static/img/movie-ticket.png" alt="ticket"></span>
               </button>
               <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
@@ -60,11 +60,18 @@
           </nav>
 
         {% if get_flashed_messages() %}
-            <header>
-                <div class="alert alert-primary mb-0 text-center" role="alert">
-                    {{ get_flashed_messages() | join(" ") }}
-                </div>
-            </header>
+        <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="margin: 60%, auto;">
+            <div class="toast-header">
+              <strong class="me-auto">Movie4Night</strong>
+              <small>now</small>
+              <button type="button" class="btn-close ms-2 mb-1" data-bs-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true"></span>
+              </button>
+            </div>
+            <div class="toast-body">
+                {{ get_flashed_messages() | join(" ") }}
+            </div>
+          </div>    
         {% endif %}
 
         <main class="container-fluid py-5 text-center">

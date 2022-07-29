@@ -148,7 +148,7 @@ a{
 
 .fill::after {
   content: "";
-  background-color: #ffe54c;
+  background-color: #8B2635;
   width: 100%;
   z-index: -1;
   position: absolute;
