@@ -1,5 +1,6 @@
 import re
 
+from random import randrange, choice
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
@@ -97,8 +98,17 @@ def logout():
 
 @app.route('/generate', methods=['POST'])
 def generate():
-    film = db.execute("SELECT * FROM movies WHERE id = 1")
-    return render_template('generated.html', film=film)
+    genre = request.form.get("genres")
+    if str(genre) != "all":
+        movies = list()
+        for movie in db.execute("SELECT id FROM movies WHERE custom_genre = ?",genre):
+            movies.append(movie['id'])
+        print(genre)
+        id = choice(movies)
+    else:
+        id = randrange(1,db.execute("SELECT COUNT(id) FROM movies ")[0]['COUNT(id)'] + 1)
+    film = db.execute("SELECT * FROM movies WHERE id = ?", id)
+    return render_template('generated.html', film=film, genre=genre)
 
 @app.route("/changepass", methods=["GET", "POST"])
 @login_required
