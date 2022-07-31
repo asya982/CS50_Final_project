@@ -21,7 +21,11 @@
                     {% endfor %}
                 <div class="card-body" style="font-size: 1.4vw; padding-top: 70%;">
                     <a href="/" class="btn btn-warning">Generate again</a>
-                    <a href="#" class="btn btn-warning">Watched</a>
+                    {% if session['user_id']%}
+                    <form action="/add_to_watched" method="post">
+                        <button type="submit" class="btn btn-warning" name="watched" value="{{ film[0]['id'] }}">Watched</button>
+                    </form>
+                    {% endif %}
                 </div>
             </div>
         </div>

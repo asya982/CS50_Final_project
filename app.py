@@ -104,11 +104,15 @@ def generate():
         for movie in db.execute("SELECT id FROM movies WHERE custom_genre = ?",genre):
             movies.append(movie['id'])
         print(genre)
-        id = choice(movies)
+        movie_id = choice(movies)
     else:
-        id = randrange(1,db.execute("SELECT COUNT(id) FROM movies ")[0]['COUNT(id)'] + 1)
-    film = db.execute("SELECT * FROM movies WHERE id = ?", id)
-    return render_template('generated.html', film=film, genre=genre)
+        movie_id = randrange(1,db.execute("SELECT COUNT(id) FROM movies ")[0]['COUNT(id)'] + 1)
+    film = db.execute("SELECT * FROM movies WHERE id = ?", movie_id)
+
+    if request.form.get('watched'):
+        add_to_watched(str(request.form.get('watched')))
+
+    return render_template('generated.html', film=film)
 
 @app.route("/changepass", methods=["GET", "POST"])
 @login_required
@@ -136,6 +140,14 @@ def changePass():
 def messages():
 
     return redirect('/')
+
+@app.route('/add_to_watched',methods = ['POST'])
+@login_required
+def add_to_watched():
+    db.execute("INSERT INTO users_history(id,user_id,movie_id,status) VALUES(1,?,?,'watched')", session['user_id'], request.form.get('watched'))
+    #зробити що б id само заповнювало
+    flash("Added to watched")
+    return redirect("/")
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001) 
