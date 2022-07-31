@@ -99,20 +99,30 @@ def logout():
 @app.route('/generate', methods=['POST'])
 def generate():
     genre = request.form.get("genres")
-    if str(genre) != "all":
-        movies = list()
-        for movie in db.execute("SELECT id FROM movies WHERE custom_genre = ?",genre):
-            movies.append(movie['id'])
-        print(genre)
-        movie_id = choice(movies)
+    movies = list()
+    try:
+        user_id = session['user_id']
+    except:
+        if str(genre) != "all":
+            for movie in db.execute("SELECT id FROM movies WHERE custom_genre = ?",genre):
+                movies.append(movie['id'])
+        else:
+            for movie in db.execute("SELECT id FROM movies "):
+                movies.append(movie['id'])
     else:
-        movie_id = randrange(1,db.execute("SELECT COUNT(id) FROM movies ")[0]['COUNT(id)'] + 1)
-    film = db.execute("SELECT * FROM movies WHERE id = ?", movie_id)
-
-    if request.form.get('watched'):
-        add_to_watched(str(request.form.get('watched')))
-
-    return render_template('generated.html', film=film)
+        if str(genre) != "all":
+            for movie in db.execute("SELECT id FROM movies WHERE custom_genre = ? AND id NOT IN (SELECT movie_id FROM users_history WHERE user_id = ? AND status ='watched')",genre,user_id):
+                movies.append(movie['id'])
+        else:
+            for movie in db.execute("SELECT id FROM movies WHERE id NOT IN (SELECT movie_id FROM users_history WHERE user_id = ? AND status ='watched')",user_id):
+                movies.append(movie['id'])
+    finally:
+        try:
+            movie_id = choice(movies)
+        except:
+            return render_template('fail.html')
+        film = db.execute("SELECT * FROM movies WHERE id = ?", movie_id)
+        return render_template('generated.html', film=film)
 
 @app.route("/changepass", methods=["GET", "POST"])
 @login_required
@@ -144,8 +154,8 @@ def messages():
 @app.route('/add_to_watched',methods = ['POST'])
 @login_required
 def add_to_watched():
-    db.execute("INSERT INTO users_history(id,user_id,movie_id,status) VALUES(1,?,?,'watched')", session['user_id'], request.form.get('watched'))
-    #зробити що б id само заповнювало
+    id = db.execute("SELECT COUNT(id) FROM users_history")[0]['COUNT(id)'] + 1
+    db.execute("INSERT INTO users_history(id,user_id,movie_id,status) VALUES(?,?,?,'watched')", id ,session['user_id'], request.form.get('watched'))
     flash("Added to watched")
     return redirect("/")
 
