@@ -19,7 +19,7 @@
         <input type="text" list="genre" name="genre"/>
         <datalist id="genre" name="genre">
             {% for genre in genres %}
-                <option id="{{genre['custom_genre']}}" name="{{genre['custom_genre']}}" value="{{genre['custom_genre']}}">{{genre['custom_genre']}}</option>
+                <option value="{{genre['genre']}}">{{genre['genre']}}</option>
             {% endfor %}
         </datalist>
     </div>
