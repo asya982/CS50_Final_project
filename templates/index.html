@@ -13,7 +13,7 @@
         <select id="genres" name="genres" class="form-select" aria-label=".form-select" >
             <option selected value="all">All genres</option>
             {% for genre in genres %}
-                <option id="{{genre['custom_genre']}}" name="{{genre['custom_genre']}}" value="{{genre['custom_genre']}}">{{genre['custom_genre']}}</option>
+                <option id="{{genre['genre']}}" name="{{genre['genre']}}" value="{{genre['genre']}}">{{genre['genre']}}</option>
             {% endfor %}
         </select>
     </div>

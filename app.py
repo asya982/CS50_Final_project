@@ -26,7 +26,7 @@ db = SQL("sqlite:///movie4night.db")
 
 @app.route('/')
 def index():
-    genres = db.execute("SELECT DISTINCT custom_genre FROM  movies")
+    genres = db.execute("SELECT DISTINCT genre FROM movie")
     return render_template('index.html', genres = genres)
 
 @app.route("/register", methods=["GET", "POST"])
@@ -105,24 +105,24 @@ def generate():
         user_id = session['user_id']
     except:
         if str(genre) != "all":
-            for movie in db.execute("SELECT id FROM movies WHERE custom_genre = ?",genre):
+            for movie in db.execute("SELECT id FROM movie WHERE genre = ?",genre):
                 movies.append(movie['id'])
         else:
-            for movie in db.execute("SELECT id FROM movies "):
+            for movie in db.execute("SELECT id FROM movie"):
                 movies.append(movie['id'])
     else:
         if str(genre) != "all":
-            for movie in db.execute("SELECT id FROM movies WHERE custom_genre = ? AND id NOT IN (SELECT movie_id FROM users_history WHERE user_id = ? AND status ='watched')",genre,user_id):
+            for movie in db.execute("SELECT id FROM movie WHERE genre = ? AND id NOT IN (SELECT movie_id FROM users_history WHERE user_id = ? AND status ='watched')",genre,user_id):
                 movies.append(movie['id'])
         else:
-            for movie in db.execute("SELECT id FROM movies WHERE id NOT IN (SELECT movie_id FROM users_history WHERE user_id = ? AND status ='watched')",user_id):
+            for movie in db.execute("SELECT id FROM movie WHERE id NOT IN (SELECT movie_id FROM users_history WHERE user_id = ? AND status ='watched')",user_id):
                 movies.append(movie['id'])
     finally:
         try:
             movie_id = choice(movies)
         except:
             return render_template('fail.html')
-        film = db.execute("SELECT * FROM movies WHERE id = ?", movie_id)
+        film = db.execute("SELECT * FROM movie WHERE id = ?", movie_id)
         return render_template('generated.html', film=film)
 
 @app.route("/changepass", methods=["GET", "POST"])
@@ -170,10 +170,10 @@ def add():
         genre = request.form.get("genres")
         image = request.form.get("image")
 
-        db.execute("INSERT INTO movies(title,rating,stie_rating,custom_genre,image) VALUES(?,?,?,?,?)", title, rating, site_rating, genre, image )
+        db.execute("INSERT INTO movie(title,rating,site_rating,genre,image) VALUES(?,?,?,?,?,)", title, rating, site_rating, genre, image )
         return redirect("/add")
     else: 
-        genres = db.execute("SELECT DISTINCT custom_genre FROM  movies")
+        genres = db.execute("SELECT DISTINCT genre FROM  movie")
         return render_template('add.html', genres = genres)
 
 
