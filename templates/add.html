@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    add filmes
+{% endblock %}
+
+{% block main %}
+<form action="/add" method="post" style="margin-top: 10%;">
+    <div class="mb-3">
+        <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="title" name="title" placeholder="Ttile" type="text">
+    </div>
+    <div class="mb-3">
+        <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="rating" name="rating" placeholder="Rating" type="number">
+    </div>
+    <div class="mb-3">
+        <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="site_rating" name="site_rating" placeholder="Site rating" type="number">
+    </div>
+    <div class="d-grid gap-4 col-3 mx-auto" style="padding-top: 3%;">
+        <select id="genres" name="genres" class="form-select" aria-label=".form-select" >
+            {% for genre in genres %}
+                <option id="{{genre['custom_genre']}}" name="{{genre['custom_genre']}}" value="{{genre['custom_genre']}}">{{genre['custom_genre']}}</option>
+            {% endfor %}
+            <option><input autocomplete="off" autofocus class="form-control mx-auto w-auto" placeholder="Other" type="text"></option>
+        </select>
+        
+    </div>
+    <div class="mb-3">
+        <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="image" name="image" placeholder="image" type="text">
+    </div>
+
+    <button class="button-37 orange" type="submit">add</button>
+</form>
+{% endblock %}

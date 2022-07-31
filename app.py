@@ -1,6 +1,7 @@
 import re
 
 from random import randrange, choice
+from turtle import title
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
@@ -159,5 +160,23 @@ def add_to_watched():
     flash("Added to watched")
     return redirect("/")
 
+@app.route('/add',methods=["GET", "POST"])
+@login_required
+def add():
+    if request.method == 'POST':
+        title = request.form.get("title")
+        rating = request.form.get("rating")
+        site_rating = request.form.get("site_rating")
+        genre = request.form.get("genres")
+        image = request.form.get("image")
+
+        db.execute("INSERT INTO movies(title,rating,stie_rating,custom_genre,image) VALUES(?,?,?,?,?)", title, rating, site_rating, genre, image )
+        return redirect("/add")
+    else: 
+        genres = db.execute("SELECT DISTINCT custom_genre FROM  movies")
+        return render_template('add.html', genres = genres)
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=5001) 
+
