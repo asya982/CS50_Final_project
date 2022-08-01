@@ -150,12 +150,6 @@ def changePass():
     else:
         return render_template('changepass.html')
 
-@app.route('/messages')
-@login_required
-def messages():
-
-    return redirect('/')
-
 @app.route('/add_to_watched',methods = ['POST'])
 @login_required
 def add_to_watched():
@@ -193,8 +187,10 @@ def handle_message(message):
         send(message, broadcast=True)
 
 @app.route('/messages')
+@login_required
 def message():
-    return render_template('messages.html')
+    name = db.execute("SELECT username FROM users WHERE id = ?", session["user_id"])
+    return render_template('messages.html', name=name)
 
 if __name__ == '__main__':
     socketio.run(app, port="5001") 

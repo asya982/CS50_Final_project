@@ -177,3 +177,7 @@ option{background-color: #f1e5dc;}
   box-shadow: none;
 }
 
+#messages {
+  margin-top: 15%;
+}
+
