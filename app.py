@@ -177,7 +177,7 @@ def add():
 @app.route("/watched", methods=["GET", "POST"])
 @login_required
 def table():
-        watched = db.execute("SELECT * FROM movie WHERE id IN (SELECT movie_id FROM users_history WHERE status='watched')")
+        watched = db.execute("SELECT * FROM movie WHERE id IN (SELECT movie_id FROM users_history WHERE status='watched' AND user_id=?)", session["user_id"])
         return render_template('main.html',watched=watched)
 
 
