@@ -3,7 +3,7 @@ import re
 from random import randrange, choice
 from tkinter.tix import Select
 from cs50 import SQL
-from flask import Flask, flash, redirect, render_template, request, session, json
+from flask import Flask, flash, redirect, render_template, request, session, jsonify
 from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -177,8 +177,9 @@ def add():
 @app.route("/watched", methods=["GET", "POST"])
 @login_required
 def table():
-    watched = db.execute("SELECT * FROM movie WHERE id IN (SELECT movie_id FROM users_history WHERE status='watched')")
-    return render_template("main.html", watched=json.dumps(watched))
+        watched = db.execute("SELECT * FROM movie WHERE id IN (SELECT movie_id FROM users_history WHERE status='watched')")
+        return render_template('main.html',watched=watched)
+
 
 @socketio.on('message')
 def handle_message(message):
