@@ -1,5 +1,6 @@
 import re
 
+from random import randrange, choice
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
@@ -97,8 +98,31 @@ def logout():
 
 @app.route('/generate', methods=['POST'])
 def generate():
-    film = db.execute("SELECT * FROM movies WHERE id = 1")
-    return render_template('generated.html', film=film)
+    genre = request.form.get("genres")
+    movies = list()
+    try:
+        user_id = session['user_id']
+    except:
+        if str(genre) != "all":
+            for movie in db.execute("SELECT id FROM movies WHERE custom_genre = ?",genre):
+                movies.append(movie['id'])
+        else:
+            for movie in db.execute("SELECT id FROM movies "):
+                movies.append(movie['id'])
+    else:
+        if str(genre) != "all":
+            for movie in db.execute("SELECT id FROM movies WHERE custom_genre = ? AND id NOT IN (SELECT movie_id FROM users_history WHERE user_id = ? AND status ='watched')",genre,user_id):
+                movies.append(movie['id'])
+        else:
+            for movie in db.execute("SELECT id FROM movies WHERE id NOT IN (SELECT movie_id FROM users_history WHERE user_id = ? AND status ='watched')",user_id):
+                movies.append(movie['id'])
+    finally:
+        try:
+            movie_id = choice(movies)
+        except:
+            return render_template('fail.html')
+        film = db.execute("SELECT * FROM movies WHERE id = ?", movie_id)
+        return render_template('generated.html', film=film)
 
 @app.route("/changepass", methods=["GET", "POST"])
 @login_required
@@ -126,6 +150,14 @@ def changePass():
 def messages():
 
     return redirect('/')
+
+@app.route('/add_to_watched',methods = ['POST'])
+@login_required
+def add_to_watched():
+    id = db.execute("SELECT COUNT(id) FROM users_history")[0]['COUNT(id)'] + 1
+    db.execute("INSERT INTO users_history(id,user_id,movie_id,status) VALUES(?,?,?,'watched')", id ,session['user_id'], request.form.get('watched'))
+    flash("Added to watched")
+    return redirect("/")
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001) 
