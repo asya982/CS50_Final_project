@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    messages
+{% endblock %}
+
+{% block main %}
+<body>
+    <script type="text/javascript">
+        let shtuka = 0;
+        let delid = 1;
+
+        function buttonUndisable() {
+            document.getElementById("sendBtn").disabled = false;
+        }
+
+        $(document).ready(function() {
+            let input = document.getElementById("message");
+            input.addEventListener("keypress", function(event) {
+                if (event.key === "Enter") {
+                event.preventDefault();
+                document.getElementById("sendBtn").click();
+                }
+            });
+
+            let socket = io.connect("http://localhost:5001")
+            socket.on('connect', function() {
+                socket.send("User connected!");
+            });
+
+            socket.on('message', function(data) {
+                $('#messages').append($('<p id="' + shtuka + '">').text(data));
+            });
+
+            $('#sendBtn').on('click', function() {
+                let message = $('#message').val().trim()
+                if (message === '' || message.length > 255) {
+                    return;
+                }
+                document.getElementById("sendBtn").disabled = true;
+                socket.send($('#username').val() + ': ' + $('#message').val());
+                $('#message').val('');
+                if (shtuka >= 15) {
+                    document.getElementById(delid.toString()).innerHTML = '';
+                    delid++;
+                }
+                shtuka++;
+                let intervalId = window.setInterval(function() {
+                    var elem = document.getElementById('messages');
+                    elem.scrollTop = elem.scrollHeight;
+                });
+                setTimeout(buttonUndisable, 1000);
+                setTimeout(function() {
+                    window.clearInterval(intervalId);
+                }, 500);
+            });
+        })
+    </script>
+    <div id="messages">
+
+    </div>
+    <input type="hidden" id="username" value="{{ name[0]['username'] }}">
+    <input type="text" id="message" placeholder="Message">
+    <button id="sendBtn">Send</button>
+</body>
+{% endblock %}

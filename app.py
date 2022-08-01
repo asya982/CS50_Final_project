@@ -186,11 +186,11 @@ def handle_message(message):
     if message != "User connected!":
         send(message, broadcast=True)
 
-@app.route('/messages')
+@app.route('/chat')
 @login_required
 def message():
     name = db.execute("SELECT username FROM users WHERE id = ?", session["user_id"])
-    return render_template('messages.html', name=name)
+    return render_template('chat.html', name=name)
 
 if __name__ == '__main__':
     socketio.run(app, port="5001") 
