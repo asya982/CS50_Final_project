@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Generate
+{% endblock %}
+
+{% block main %}
+<button type="button" onclick="render_table()" style="margin-top: 15%;">Watched</button>
+<button type="button" onclick="render_fav()" style="margin-top: 15%; margin-left: 20%;">Favorite</button>
+<table class="table" id='head' show="none">
+    <thead class="table-light">
+        <tr>
+            <th>Ttile</th>
+            <th>Genre</th>
+            <th>Rating</th>
+        </tr>
+    </thead>
+    <tbody id="table">
+    </tbody>
+</table>
+<p>{{watched}}</p>
+
+
+<script>
+function render_table(){
+    document.getElementById("head").style.display = "block";
+    document.getElementById("table").innerHTML='<tr>'+'<td>'+'{{watched[0]["title"] | safe }}'+'</td>';
+}
+
+function render_fav(){
+    document.getElementById("table").innerHTML='dima'
+}
+</script>
+  {% endblock %}
