@@ -7,10 +7,14 @@ from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
+from flask_socketio import SocketIO, send
 
 from helpers import apology, login_required
 
 app = Flask(__name__)
+
+app.config['SECRET'] = 'secret2228'
+socketio = SocketIO(app, cors_allowed_origins='*')
 
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -25,7 +29,7 @@ db = SQL("sqlite:///movie4night.db")
 
 @app.route('/')
 def index():
-    genres = db.execute("SELECT DISTINCT custom_genre FROM  movies")
+    genres = db.execute("SELECT DISTINCT genre FROM movie")
     return render_template('index.html', genres = genres)
 
 @app.route("/register", methods=["GET", "POST"])
@@ -104,24 +108,24 @@ def generate():
         user_id = session['user_id']
     except:
         if str(genre) != "all":
-            for movie in db.execute("SELECT id FROM movies WHERE custom_genre = ?",genre):
+            for movie in db.execute("SELECT id FROM movie WHERE genre = ?",genre):
                 movies.append(movie['id'])
         else:
-            for movie in db.execute("SELECT id FROM movies "):
+            for movie in db.execute("SELECT id FROM movie"):
                 movies.append(movie['id'])
     else:
         if str(genre) != "all":
-            for movie in db.execute("SELECT id FROM movies WHERE custom_genre = ? AND id NOT IN (SELECT movie_id FROM users_history WHERE user_id = ? AND status ='watched')",genre,user_id):
+            for movie in db.execute("SELECT id FROM movie WHERE genre = ? AND id NOT IN (SELECT movie_id FROM users_history WHERE user_id = ? AND status ='watched')",genre,user_id):
                 movies.append(movie['id'])
         else:
-            for movie in db.execute("SELECT id FROM movies WHERE id NOT IN (SELECT movie_id FROM users_history WHERE user_id = ? AND status ='watched')",user_id):
+            for movie in db.execute("SELECT id FROM movie WHERE id NOT IN (SELECT movie_id FROM users_history WHERE user_id = ? AND status ='watched')",user_id):
                 movies.append(movie['id'])
     finally:
         try:
             movie_id = choice(movies)
         except:
             return render_template('fail.html')
-        film = db.execute("SELECT * FROM movies WHERE id = ?", movie_id)
+        film = db.execute("SELECT * FROM movie WHERE id = ?", movie_id)
         return render_template('generated.html', film=film)
 
 @app.route("/changepass", methods=["GET", "POST"])
@@ -159,5 +163,33 @@ def add_to_watched():
     flash("Added to watched")
     return redirect("/")
 
+@app.route('/add',methods=["GET", "POST"])
+@login_required
+def add():
+    if request.method == 'POST':
+        title = request.form.get("title")
+        rating = request.form.get("rating")
+        site_rating = request.form.get("site_rating")
+        genre = request.form.get("genre")
+        image = request.form.get("image")
+
+        db.execute("INSERT INTO movie(title,rating,site_rating,genre,image) VALUES(?,?,?,?,?)", title, rating, site_rating, genre, image)
+        return redirect("/add")
+    else: 
+        genres = db.execute("SELECT DISTINCT genre FROM movie")
+        return render_template('add.html', genres = genres)
+
+
+@socketio.on('message')
+def handle_message(message):
+    print("Recieved message: " + message)
+    if message != "User connected!":
+        send(message, broadcast=True)
+
+@app.route('/messages')
+def message():
+    return render_template('messages.html')
+
 if __name__ == '__main__':
-    app.run(debug=True, port=5001) 
+    socketio.run(app, port="5001") 
+
