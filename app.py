@@ -1,8 +1,9 @@
 import re
 
 from random import randrange, choice
+from tkinter.tix import Select
 from cs50 import SQL
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, flash, redirect, render_template, request, session, json
 from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -175,6 +176,11 @@ def add():
         genres = db.execute("SELECT DISTINCT genre FROM movie")
         return render_template('add.html', genres = genres)
 
+@app.route("/watched", methods=["GET", "POST"])
+@login_required
+def table():
+    watched = db.execute("SELECT * FROM movie WHERE id IN (SELECT movie_id FROM users_history WHERE status='watched')")
+    return render_template("main.html", watched=json.dumps(watched))
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001) 
