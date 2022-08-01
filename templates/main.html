@@ -1,34 +1,81 @@
 {% extends "layout.html" %}
 
+{% block head %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+{% endblock %}
+
 {% block title %}
     Generate
 {% endblock %}
 
+
 {% block main %}
-<button type="button" onclick="render_table()" style="margin-top: 15%;">Watched</button>
-<button type="button" onclick="render_fav()" style="margin-top: 15%; margin-left: 20%;">Favorite</button>
-<table class="table" id='head' show="none">
-    <thead class="table-light">
-        <tr>
-            <th>Ttile</th>
-            <th>Genre</th>
-            <th>Rating</th>
-        </tr>
-    </thead>
-    <tbody id="table">
-    </tbody>
-</table>
-<p>{{watched}}</p>
+  <ul class="nav nav-tabs" id="nav-tab" role="tablist">
+    <li class="active"><a data-toggle="tab" href="#watched">Watched</a></li>
+    <li><a data-toggle="tab" href="#fav">Favorites</a></li>
+    <li><a data-toggle="tab" href="#later">Watch Later</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="watched" class="tab-pane fade in active">
+      <h3>Watched</h3>
+      <table class="table">
+        <thead>
+          <th class="text-start">Title</th>
+          <th class="text-start">Genre</th>
+          <th class="text-end">Rating</th>
+        </thead>
+        <tbody>
+            {% for watch in watched %}
+                <tr>
+                    <td class="text-start">{{ watch['title'] }}</td>
+                    <td class="text-start">{{ watch['genre'] }}</td>
+                    <td class="text-end">{{ watch['rating'] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div id="fav" class="tab-pane fade">
+      <h3>Favorites</h3>
+            <table class="table">
+        <thead>
+          <th>Title</th>
+          <th>Genre</th>
+          <th>Rating</th>
+        </thead>
+        <tbody>
+            <!--{% for genre in genres %}
+                <tr>
+                    <td>
+                        
+                    </td>
+                </tr>
+            {% endfor %}-->
+        </tbody>
+      </table>
+    </div>
+    <div id="later" class="tab-pane fade">
+      <h3>Watch Later</h3>
+      <table class="table">
+        <thead>
+          <th>Title</th>
+          <th>Genre</th>
+          <th>Rating</th>
+        </thead>
+        <tbody>
+            <!--{% for genre in genres %}
+                <tr>
+                    <td>
+                        
+                    </td>
+                </tr>
+            {% endfor %}-->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
 
-<script>
-function render_table(){
-    document.getElementById("head").style.display = "block";
-    document.getElementById("table").innerHTML='<tr>'+'<td>'+'{{watched[0]["title"] | safe }}'+'</td>';
-}
-
-function render_fav(){
-    document.getElementById("table").innerHTML='dima'
-}
-</script>
-  {% endblock %}
+{% endblock %}
