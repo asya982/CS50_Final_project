@@ -30,11 +30,15 @@
 
     </head>
 
-    <body style="background-color: #FDFBF3; ">
-        <nav class="navbar fixed-top">
+    <body style="background-color: white; ">
+        <nav class="navbar fixed-top navbar-toggleable"> 
             <div class="container-fluid">
-              <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" id="text" style="color:black">
-               Movie4Night <span class="icon"><img src="static/img/movie-ticket.png" alt="ticket" style="position:relative; top:-5px;"></span>
+              <a class="navbar-brand" href="/" id="text" style="color:black">
+                Movie4Night <span class="icon"><img src="static/img/movie-ticket.png" alt="ticket" style="position:relative; top:-5px;"></span></a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                <span class="navbar-toggler-icon" style="border: 2px solid black;">Menu</span>
+              </button>
+              <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" >
               </button>
               <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                 <div class="offcanvas-header">
