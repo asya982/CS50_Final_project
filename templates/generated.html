@@ -39,19 +39,18 @@ Generate
                             <div class="accordion-body">
                                 <div class="container rating">
                                     <div class="star-widget">
-                                        <input type="radio" name="rate" id="rate-5">
-                                        <label for="rate-5" class="fas fa-star"></label>
-                                        <input type="radio" name="rate" id="rate-4">
-                                        <label for="rate-4" class="fas fa-star"></label>
-                                        <input type="radio" name="rate" id="rate-3">
-                                        <label for="rate-3" class="fas fa-star"></label>
-                                        <input type="radio" name="rate" id="rate-2">
-                                        <label for="rate-2" class="fas fa-star"></label>
-                                        <input type="radio" name="rate" id="rate-1">
-                                        <label for="rate-1" class="fas fa-star"></label>
                                         <form action="/add_to_watched" method="post">
-                                            <button type="submit" class="btn btn-dark" name="watched"
-                                                value="{{ film[0]['id'] }}">Add</button>
+                                        <input type="radio" name="rate" id="rate-5" value="5.0">
+                                        <label for="rate-5" class="fas fa-star"></label>
+                                        <input type="radio" name="rate" id="rate-4" value="4.0">
+                                        <label for="rate-4" class="fas fa-star"></label>
+                                        <input type="radio" name="rate" id="rate-3" value="3.0">
+                                        <label for="rate-3" class="fas fa-star"></label>
+                                        <input type="radio" name="rate" id="rate-2" value="2.0">
+                                        <label for="rate-2" class="fas fa-star"></label>
+                                        <input type="radio" name="rate" id="rate-1" value="1.0">
+                                        <label for="rate-1" class="fas fa-star"></label>
+                                        <button type="submit" class="btn btn-dark" name="watched" value="{{ film[0]['id'] }}">Add</button>
                                         </form>
                                     </div>
                                 </div>
@@ -60,11 +59,8 @@ Generate
                         </div>
                     </div>
                     <a href="/" class="btn btn-dark shadow-sm bg-body rounded">Generate again</a>
-
-
-
                 </div>
             </div>
         </div>
     </div>
-    {% endblock %}
+{% endblock %}
