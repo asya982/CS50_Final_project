@@ -27,7 +27,6 @@ Session(app)
 
 db = SQL("sqlite:///movie4night.db")
 
-
 @app.route('/')
 def index():
     genres = db.execute("SELECT DISTINCT genre FROM movie")
