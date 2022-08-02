@@ -1,33 +1,70 @@
 {% extends "layout.html" %}
 
+{% block head %}
+<script src="https://kit.fontawesome.com/2905b66f44.js" crossorigin="anonymous"></script>
+{% endblock %}
+
 {% block title %}
-    Generate
+Generate
 {% endblock %}
 
 {% block main %}
-    <div class="container-fluid" style="margin-top: 2%">
-        <div class="row">
-            <div class="col-6">
-                <img src="{{ film[0]['image'] }}" alt="filmtitle" style="width: 55%;">
-            </div>
-            <div class="col-4 card h-100"  >
-                    {% for i in film %}
-                    <h2 > {{ i["title"] }} </h2>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Rating: {{ i["rating"] }} </li>
-                        <li class="list-group-item">User's rating: {{ i["site_rating"] }} </li>
-                        <li class="list-group-item">Genre: {{ i["genre"] }} </li>
-                    </ul>
-                    {% endfor %}
-                <div class="card-body" style="font-size: 1.4vw; padding-top: 70%;">
-                    <a href="/" class="btn btn-warning">Generate again</a>
-                    {% if session['user_id']%}
-                    <form action="/add_to_watched" method="post">
-                        <button type="submit" class="btn btn-warning" name="watched" value="{{ film[0]['id'] }}">Watched</button>
-                    </form>
-                    {% endif %}
+<div class="container-fluid" style="margin-top: 2%">
+    <div class="row">
+        <div class="col-6">
+            <img src="{{ film[0]['image'] }}" alt="filmtitle" style="width: 55%;">
+        </div>
+        <div class="col-sm-6 card">
+            {% for i in film %}
+            <h2> {{ i["title"] }} </h2>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Rating: {{ i["rating"] }} </li>
+                <li class="list-group-item">User's rating: {{ i["site_rating"] }} </li>
+                <li class="list-group-item">Genre: {{ i["genre"] }} </li>
+            </ul>
+            {% endfor %}
+            <div class="card-body">
+                {% if session['user_id']%}
+                <div class="accordion accordion-flush" id="accordionFlushExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="flush-headingOne">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                aria-controls="flush-collapseOne">
+                                Watched
+                            </button>
+                        </h2>
+                        <div id="flush-collapseOne" class="accordion-collapse collapse"
+                            aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body">
+                                <div class="container rating">
+                                    <div class="star-widget">
+                                        <input type="radio" name="rate" id="rate-5">
+                                        <label for="rate-5" class="fas fa-star"></label>
+                                        <input type="radio" name="rate" id="rate-4">
+                                        <label for="rate-4" class="fas fa-star"></label>
+                                        <input type="radio" name="rate" id="rate-3">
+                                        <label for="rate-3" class="fas fa-star"></label>
+                                        <input type="radio" name="rate" id="rate-2">
+                                        <label for="rate-2" class="fas fa-star"></label>
+                                        <input type="radio" name="rate" id="rate-1">
+                                        <label for="rate-1" class="fas fa-star"></label>
+                                        <form action="/add_to_watched" method="post">
+                                            <button type="submit" class="btn btn-dark" name="watched"
+                                                value="{{ film[0]['id'] }}">Add</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <a href="/" class="btn btn-dark shadow-sm bg-body rounded">Generate again</a>
+
+
+
                 </div>
             </div>
         </div>
     </div>
-{% endblock %}
+    {% endblock %}

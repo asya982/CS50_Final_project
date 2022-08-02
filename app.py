@@ -38,15 +38,15 @@ def register():
     """Register user"""
     if request.method == "POST":  # if method post do one thing if not another
         if not request.form.get("username"):
-            return render_template("fail.html")
+            return redirect('/changepass')
         elif not request.form.get("password"):
-            return render_template("fail.html")
+            return redirect('/changepass')
         elif request.form.get("password") != request.form.get("confirmation"):
-            return render_template("fail.html")
+            return redirect('/changepass')
         elif not re.search(r"[\d]", request.form.get("password")):
-            return render_template("fail.html")
+            return redirect('/changepass')
         elif len(db.execute("SELECT username FROM users WHERE username = ?", request.form.get("username"))) != 0:
-            return render_template("fail.html")
+            return redirect('/changepass')
 
         db.execute("INSERT INTO users (username, hash) VALUES (?, ?)",
                    request.form.get("username"), generate_password_hash(request.form.get("password")))
@@ -68,18 +68,18 @@ def login():
 
         # Ensure username was submitted
         if not request.form.get("username"):
-            return render_template("fail.html")
+            return redirect('/changepass')
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return render_template("fail.html")
+            return redirect('/changepass')
 
         # Query database for username
         rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
 
         # Ensure username exists and password is correct
         if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
-            return render_template("fail.html")
+            return redirect('/changepass')
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
 
@@ -134,25 +134,31 @@ def generate():
 def changePass():
     if request.method == 'POST':
         if not request.form.get("oldpassword"):
-            return render_template("fail.html")
+            flash ("must provide password")
+            return redirect('/changepass')
         elif not check_password_hash(db.execute("SELECT hash FROM users WHERE id = ?", session["user_id"])[0]['hash'], request.form.get("oldpassword")):
-            return render_template("fail.html")
+            flash("Invalid password")
+            return redirect('/changepass')
         elif not request.form.get("password"):
-            return render_template("fail.html")
+            flash("Invalid password")
+            return redirect('/changepass')
         elif request.form.get("password") != request.form.get("confirmation"):
-            return render_template("fail.html")
+            flash("Passwords do not match!")
+            return redirect('/changepass')
         elif not re.search(r"[\d]", request.form.get("password")):
-            return render_template("fail.html")
-        db.execute("UPDATE users SET hash = ? WHERE id = ?", generate_password_hash(
-            request.form.get("password")), session["user_id"])
+            flash("Password must contain ONLY digits")
+            return redirect('/changepass')
+        db.execute("UPDATE users SET hash = ? WHERE id = ?", generate_password_hash(request.form.get("password")), session["user_id"])
         flash("Your password has changed!")
         return redirect("/")
     else:
         return render_template('changepass.html')
 
+
 @app.route('/add_to_watched',methods = ['POST'])
 @login_required
 def add_to_watched():
+    
     id = db.execute("SELECT COUNT(id) FROM users_history")[0]['COUNT(id)'] + 1
     db.execute("INSERT INTO users_history(id,user_id,movie_id,status) VALUES(?,?,?,'watched')", id ,session['user_id'], request.form.get('watched'))
     flash("Added to watched")
