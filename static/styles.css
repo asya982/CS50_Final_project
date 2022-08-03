@@ -212,8 +212,10 @@ option{
   box-shadow: none;
 }
 
-#messages {
-  background-color: yellowgreen;
+#chat {
+  background-color: linear-gradient(white, pink);
+  border: #18181a 1px solid;
+  border-radius: 15px;
   height: 200px;
   padding-left: 25px;
   padding-right: 25px;
@@ -221,6 +223,12 @@ option{
   margin-left: 25%;
   margin-right: 25%;
   overflow-y: auto;
+  font-family: 'DM Serif Display', serif;
+}
+
+#message{
+  margin-top: 3%;
+  border: #000 1px solid;
 }
 
 .rating{

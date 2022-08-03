@@ -1,5 +1,9 @@
 {% extends "layout.html" %}
 
+{% block head %}
+<script src="https://kit.fontawesome.com/2905b66f44.js" crossorigin="anonymous"></script>
+{% endblock %}
+
 {% block title %}
     messages
 {% endblock %}
@@ -56,11 +60,16 @@
             });
         })
     </script>
-    <div id="messages">
+    <div id="chat">
+        <h3><u>CHAT</u><i class="fa-thin fa-pen-field" style="font-size: 35px;"></i></h3>
+        
+        <div id="messages">
 
+        </div>
     </div>
+
     <input type="hidden" id="username" value="{{ name[0]['username'] }}">
-    <input type="text" id="message" placeholder="Message">
-    <button id="sendBtn">Send</button>
+    <input type="text" id="message" placeholder="Message" class="shadow-sm bg-body rounded">
+    <button id="sendBtn" class="button-37 orange">Send</button>
 </body>
 {% endblock %}
