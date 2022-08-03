@@ -29,7 +29,7 @@
                 <tr>
                     <td class="text-start">{{ watch['title'] }}</td>
                     <td class="text-start">{{ watch['genre'] }}</td>
-                    <td class="text-end">{{ watch['site_rating'] }}</td>
+                    <td class="text-end">{{ "%.2f"|format(watch['site_rating']) }}</td>
                     <td class="text-end">{{ watch['rating'] }}</td>
                 </tr>
             {% endfor %}
