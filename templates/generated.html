@@ -23,7 +23,7 @@ Generate
                 <li class="list-group-item">Genre: {{ i["genre"] }} </li>
             </ul>
             {% endfor %}
-            <div class="card-body">
+            <div class="card-body" style="margin-top: 10%;">
                 <a href="/" class="btn btn-dark shadow-sm bg-body rounded w-50 mx-auto">Generate again</a>
                 {% if session['user_id']%}
                 <div class="accordion accordion-flush" id="accordionFlushExample" style="margin-top:3%">
@@ -51,16 +51,17 @@ Generate
                                             <input type="radio" name="rate" id="rate-1" value="1.0">
                                             <label for="rate-1" class="fas fa-star"></label>
                                             <button type="submit" class="btn btn-dark" name="watched" style="margin-left:10%;" value="{{ film[0]['id'] }}">Add</button>
-                                        
+                                        </form>
                                     </div>
                                 </div>
                             </div>
-                            {% endif %}
+
                         </div>
                     </div>
                 </div>
+                <form action="/add_to_later" method="post">
                 <button type="submit" id="btn" class="btn btn-dark shadow-sm bg-body rounded w-50 mx-auto" name="later" value="{{ film[0]['id'] }}"  style="margin: 3%;">Watch Later</button>
-                <button type="submit" id="btn" class="btn btn-dark shadow-sm bg-body rounded w-50 mx-auto" name="fav" value="{{ film[0]['id'] }}">Add to favourites</button>
+                {% endif %}
             </form>
             </div>
         </div>

@@ -160,14 +160,22 @@ def changePass():
 @app.route('/add_to_watched',methods = ['POST'])
 @login_required
 def add_to_watched():
-    rate=float(request.form.get('rate'))
     id = db.execute("SELECT COUNT(id) FROM users_history")[0]['COUNT(id)'] + 1
+    rate=float(request.form.get('rate'))
     db.execute("INSERT INTO users_history(id,user_id,movie_id,status) VALUES(?,?,?,'watched')", id ,session['user_id'], request.form.get('watched'))
     db.execute("INSERT INTO user_rating(user_id,film_id,rating) VALUES(?,?,?)", session['user_id'], request.form.get('watched'),rate)
-
-
     flash("Added to watched")
     return redirect("/")
+
+
+@app.route('/add_to_later',methods = ['POST'])
+@login_required
+def add_to_laters():
+    id = db.execute("SELECT COUNT(id) FROM users_history")[0]['COUNT(id)'] + 1
+    db.execute("INSERT INTO users_history(id,user_id,movie_id,status) VALUES(?,?,?,'watch later')", id ,session['user_id'], request.form.get('later'))
+    flash("Added to Watch later")
+    return redirect("/")
+
 
 @app.route('/add',methods=["GET", "POST"])
 @login_required
@@ -187,8 +195,9 @@ def add():
 @app.route("/watched", methods=["GET", "POST"])
 @login_required
 def table():
-        watched = db.execute("SELECT * FROM movie WHERE id IN (SELECT movie_id FROM users_history WHERE status='watched' AND user_id=?)", session["user_id"])
-        return render_template('main.html',watched=watched)
+    laters=db.execute("SELECT * FROM movie WHERE id IN (SELECT movie_id FROM users_history WHERE status='watch later' AND user_id=?)", session["user_id"])
+    watched = db.execute("SELECT * FROM movie WHERE id IN (SELECT movie_id FROM users_history WHERE status='watched' AND user_id=?)", session["user_id"])
+    return render_template('main.html',watched=watched, laters=laters)
 
 
 @socketio.on('message')
