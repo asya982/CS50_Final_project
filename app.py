@@ -171,11 +171,10 @@ def add():
     if request.method == 'POST':
         title = request.form.get("title")
         rating = request.form.get("rating")
-        site_rating = request.form.get("site_rating")
         genre = request.form.get("genre")
         image = request.form.get("image")
 
-        db.execute("INSERT INTO movie(title,rating,site_rating,genre,image) VALUES(?,?,?,?,?)", title, rating, site_rating, genre, image)
+        db.execute("INSERT INTO movie(title,rating,genre,image) VALUES(?,?,?,?)", title, rating, genre, image)
         return redirect("/add")
     else: 
         genres = db.execute("SELECT DISTINCT genre FROM movie")

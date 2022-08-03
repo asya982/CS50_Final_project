@@ -106,11 +106,11 @@
 }
 
 
-a:link {color:black;}
+a:link, #btn {color:black;}
 a:visited {color:black;}
-a:hover {color: #808080 !important;}
+a:hover, #btn:hover {color: #379392 !important;}
 a{
-  text-decoration:none;
+  text-decoration:none !important;
 }
 
 #list{
@@ -241,7 +241,7 @@ option{
 }
 
 .star-widget label{
-  font-size: 40px;
+  font-size: 35px;
   color:#444;
   padding: 10px;
   float:right;
@@ -260,5 +260,21 @@ input:checked ~ label{
 input#rate-5:checked ~ label{
   color: #fe7;
   text-shadow: 0 0 20px #952;
+}
+
+.accordion-button{
+  border: #18181a 1px solid !important;
+  border-radius: 0.25rem !important;
+  text-align: center !important;
+  display: block;
+
+}
+
+.accordion-button:hover{color:#379392}
+
+.accordion-button:not(.collapsed) {
+  color: black !important; 
+  background-color: #fff !important; 
+  box-shadow: none !important;
 }
 
