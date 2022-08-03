@@ -1,7 +1,8 @@
 {% extends "layout.html" %}
 
 {% block head %}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://kit.fontawesome.com/2905b66f44.js" crossorigin="anonymous"></script>
 {% endblock %}
 
 {% block title %}
@@ -43,14 +44,30 @@
           <th class="text-start">Genre</th>
           <th class="text-end">User's rating</th>
           <th class="text-end">Rating (IMDb)</th>
+          <th class="text-end">Watched</th>
         </thead>
         <tbody>
             {% for late in laters %}
             <tr>
               <td class="text-start">{{ late['title'] }}</td>
               <td class="text-start">{{ late['genre'] }}</td>
-              <td class="text-end">{{ late['site_rating'] }}</td>
+              <td class="text-end">{{ "%.2f"|format(late['site_rating']) }}</td>
               <td class="text-end">{{ late['rating'] }}</td>
+              <td class="text-end">
+                <form action="/add_to_watched" method="post">
+                    <input type="radio" name="rate" id="rate-5" value="5.0" style="display:none">
+                    <label for="rate-5" class="fas fa-star"></label>
+                    <input type="radio" name="rate" id="rate-4" value="4.0" style="display:none">
+                    <label for="rate-4" class="fas fa-star"></label>
+                    <input type="radio" name="rate" id="rate-3" value="3.0" style="display:none">
+                    <label for="rate-3" class="fas fa-star"></label>
+                    <input type="radio" name="rate" id="rate-2" value="2.0" style="display:none">
+                    <label for="rate-2" class="fas fa-star"></label>
+                    <input type="radio" name="rate" id="rate-1" value="1.0" style="display:none">
+                    <label for="rate-1" class="fas fa-star"></label>
+                    <button type="submit" class="btn btn-dark" name="watched" style="margin-left:10%;" value="{{ late['id'] }}">Add</button>
+                </form>
+              </td>
             </tr>
             {% endfor %}
         </tbody>
