@@ -27,7 +27,6 @@ Session(app)
 
 db = SQL("sqlite:///movie4night.db")
 
-
 @app.route('/')
 def index():
     genres = db.execute("SELECT DISTINCT genre FROM movie")
@@ -158,9 +157,11 @@ def changePass():
 @app.route('/add_to_watched',methods = ['POST'])
 @login_required
 def add_to_watched():
-    
+    rate=float(request.form.get('rate'))
     id = db.execute("SELECT COUNT(id) FROM users_history")[0]['COUNT(id)'] + 1
     db.execute("INSERT INTO users_history(id,user_id,movie_id,status) VALUES(?,?,?,'watched')", id ,session['user_id'], request.form.get('watched'))
+    db.execute("INSERT INTO user_rating(user_id,film_id,rating) VALUES(?,?,?)", session['user_id'], request.form.get('watched'),rate)
+
     flash("Added to watched")
     return redirect("/")
 
