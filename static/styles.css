@@ -106,7 +106,7 @@
 
 a:link, #btn {color:black;}
 a:visited {color:black;}
-a:hover, #btn:hover {color: #379392 !important;}
+a:hover, #btn:hover {color: gray !important;}
 a{
   text-decoration:none !important;
 }

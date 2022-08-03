@@ -69,20 +69,20 @@ def login():
         # Ensure username was submitted
         if not request.form.get("username"):
             flash("Must provide username!")
-            return redirect('/login')
+            return render_template('login.html')
 
         # Ensure password was submitted
         elif not request.form.get("password"):
             flash("Must provide password!")
-            return redirect('/login')
+            return render_template('login.html')
 
         # Query database for username
         rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
 
         # Ensure username exists and password is correct
         if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
-            flash("Must provide password!")
-            return redirect('/login')
+            flash("Wrong password or username!")
+            return render_template('login.html')
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
 
@@ -165,8 +165,18 @@ def changePass():
 def add_to_watched():
     id = db.execute("SELECT COUNT(id) FROM users_history")[0]['COUNT(id)'] + 1
     rate=float(request.form.get('rate'))
+
+    if db.execute("SELECT * FROM users_history WHERE user_id = ? AND movie_id = ? AND status = 'watch later'", session["user_id"], request.form.get('watched')):
+        db.execute("UPDATE users_history SET status = 'wathced' WHERE user_id = ? AND movie_id = ?", session["user_id"], request.form.get('watched'))
+
     db.execute("INSERT INTO users_history(id,user_id,movie_id,status) VALUES(?,?,?,'watched')", id ,session['user_id'], request.form.get('watched'))
     db.execute("INSERT INTO user_rating(user_id,film_id,rating) VALUES(?,?,?)", session['user_id'], request.form.get('watched'),rate)
+
+    site_rating = db.execute("SELECT AVG(rating), COUNT(rating) FROM user_rating WHERE film_id = ?", request.form.get('watched'))
+    db.execute("UPDATE movie SET site_rating = ? WHERE id = ?", site_rating[0]["AVG(rating)"], request.form.get('watched'))
+
+
+    print("totochno to sho trebo" ,request.form.get('watched'))
     flash("Added to watched")
     return redirect("/")
 
