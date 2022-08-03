@@ -22,13 +22,15 @@
         <thead>
           <th class="text-start">Title</th>
           <th class="text-start">Genre</th>
-          <th class="text-end">Rating</th>
+          <th class="text-end">User's rating</th>
+          <th class="text-end">Rating (IMDb)</th>
         </thead>
         <tbody>
             {% for watch in watched %}
                 <tr>
                     <td class="text-start">{{ watch['title'] }}</td>
                     <td class="text-start">{{ watch['genre'] }}</td>
+                    <td class="text-end">{{ watch['site_rating'] }}</td>
                     <td class="text-end">{{ watch['rating'] }}</td>
                 </tr>
             {% endfor %}

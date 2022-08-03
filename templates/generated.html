@@ -19,7 +19,7 @@ Generate
             <h2> {{ i["title"] }} </h2>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">Rating: {{ i["rating"] }} </li>
-                <li class="list-group-item">User's rating: {{ i["site_rating"] }} </li>
+                <li class="list-group-item">User's rating: {{ site_rating[0]["AVG(rating)"] }} ({{ site_rating[0]["COUNT(rating)"] }}) </li>
                 <li class="list-group-item">Genre: {{ i["genre"] }} </li>
             </ul>
             {% endfor %}

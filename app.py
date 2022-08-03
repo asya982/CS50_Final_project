@@ -1,6 +1,7 @@
 import re
 
 from random import randrange, choice
+import site
 from tkinter.tix import Select
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session, jsonify
@@ -124,9 +125,11 @@ def generate():
         try:
             movie_id = choice(movies)
         except:
-            return render_template('fail.html')
+            return render_template('congrats.html')
         film = db.execute("SELECT * FROM movie WHERE id = ?", movie_id)
-        return render_template('generated.html', film=film)
+        site_rating = db.execute("SELECT AVG(rating), COUNT(rating) FROM user_rating WHERE film_id = ?", movie_id)
+        db.execute("UPDATE movie SET site_rating = ? WHERE id = ?", site_rating[0]["AVG(rating)"], movie_id)
+        return render_template('generated.html', film=film, site_rating=site_rating)
 
 @app.route("/changepass", methods=["GET", "POST"])
 @login_required
@@ -161,6 +164,7 @@ def add_to_watched():
     id = db.execute("SELECT COUNT(id) FROM users_history")[0]['COUNT(id)'] + 1
     db.execute("INSERT INTO users_history(id,user_id,movie_id,status) VALUES(?,?,?,'watched')", id ,session['user_id'], request.form.get('watched'))
     db.execute("INSERT INTO user_rating(user_id,film_id,rating) VALUES(?,?,?)", session['user_id'], request.form.get('watched'),rate)
+
 
     flash("Added to watched")
     return redirect("/")
@@ -200,5 +204,5 @@ def message():
     return render_template('chat.html', name=name)
 
 if __name__ == '__main__':
-    socketio.run(app, port="5001") 
+    socketio.run(app, port="5001", debug=True) 
 
