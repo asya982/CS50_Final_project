@@ -68,18 +68,21 @@ def login():
 
         # Ensure username was submitted
         if not request.form.get("username"):
-            return redirect('/changepass')
+            flash("Must provide username!")
+            return redirect('/login')
 
         # Ensure password was submitted
         elif not request.form.get("password"):
-            return redirect('/changepass')
+            flash("Must provide password!")
+            return redirect('/login')
 
         # Query database for username
         rows = db.execute("SELECT * FROM users WHERE username = ?", request.form.get("username"))
 
         # Ensure username exists and password is correct
         if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
-            return redirect('/changepass')
+            flash("Must provide password!")
+            return redirect('/login')
         # Remember which user has logged in
         session["user_id"] = rows[0]["id"]
 
@@ -136,19 +139,19 @@ def generate():
 def changePass():
     if request.method == 'POST':
         if not request.form.get("oldpassword"):
-            flash ("must provide password")
+            flash ("Must provide password!")
             return redirect('/changepass')
         elif not check_password_hash(db.execute("SELECT hash FROM users WHERE id = ?", session["user_id"])[0]['hash'], request.form.get("oldpassword")):
-            flash("Invalid password")
+            flash("Invalid password!")
             return redirect('/changepass')
         elif not request.form.get("password"):
-            flash("Invalid password")
+            flash("Invalid password!")
             return redirect('/changepass')
         elif request.form.get("password") != request.form.get("confirmation"):
             flash("Passwords do not match!")
             return redirect('/changepass')
         elif not re.search(r"[\d]", request.form.get("password")):
-            flash("Password must contain ONLY digits")
+            flash("Password must contain digits!")
             return redirect('/changepass')
         db.execute("UPDATE users SET hash = ? WHERE id = ?", generate_password_hash(request.form.get("password")), session["user_id"])
         flash("Your password has changed!")
