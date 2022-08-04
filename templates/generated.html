@@ -60,7 +60,9 @@ Generate
                     </div>
                 </div>
                 <form action="/add_to_later" method="post">
+                {% if not added %}
                 <button type="submit" id="btn" class="btn btn-dark shadow-sm bg-body rounded w-50 mx-auto" name="later" value="{{ film[0]['id'] }}"  style="margin: 3%;">Watch Later</button>
+                {% endif %}
                 {% endif %}
             </form>
             </div>

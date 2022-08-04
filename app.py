@@ -108,6 +108,7 @@ def logout():
 def generate():
     genre = request.form.get("genres")
     movies = list()
+    added = str()
     try:
         user_id = session['user_id']
     except:
@@ -131,8 +132,13 @@ def generate():
             return render_template('congrats.html')
         film = db.execute("SELECT * FROM movie WHERE id = ?", movie_id)
         site_rating = db.execute("SELECT AVG(rating), COUNT(rating) FROM user_rating WHERE film_id = ?", movie_id)
+        try:
+            added = db.execute("SELECT status FROM  users_history WHERE movie_id=?  AND user_id=?",movie_id,session['user_id'])[0]['status']
+        except:
+            added = None
+            print("хуйня")
         db.execute("UPDATE movie SET site_rating = ? WHERE id = ?", site_rating[0]["AVG(rating)"], movie_id)
-        return render_template('generated.html', film=film, site_rating=site_rating)
+        return render_template('generated.html', film=film, site_rating=site_rating,added=added)
 
 @app.route("/changepass", methods=["GET", "POST"])
 @login_required

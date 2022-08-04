@@ -69,22 +69,16 @@
             </div>
           </nav>
         <main class="container-fluid py-5 text-center">
+          {% if get_flashed_messages() %}
+          <header style="padding-top: 20px;">
+            <div class="alert alert-secondary mb-0 ms-auto text-center" role="alert">
+                {{ get_flashed_messages() | join(" ") }}
+            </div>
+          </header>
+          {% endif %}
             {% block main %}{% endblock %}
         </main>
-        {% if get_flashed_messages() %}
-        <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="position:absolute; top: 75%; left: 1%;">
-            <div class="toast-header">
-              <strong class="me-auto">Movie4Night</strong>
-              <small>now</small>
-              <button type="button" class="btn-close ms-2 mb-1" data-bs-dismiss="toast" aria-label="Close">
-                <span aria-hidden="true"></span>
-              </button>
-            </div>
-            <div class="toast-body">
-                {{ get_flashed_messages() | join(" ") }} 
-            </div>
-          </div>    
-        {% endif %}
+        
 
 
 
