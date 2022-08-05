@@ -28,7 +28,7 @@
                 }
             });
 
-            let socket = io.connect("https://movie4night.herokuapp.com:3000")
+            let socket = io.connect("https://movie4night.herokuapp.com")
             socket.on('connect', function() {
                 socket.send("User connected!");
             });
