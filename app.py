@@ -230,7 +230,7 @@ def handle_message(message):
     if message != "User connected!":
         send(message, broadcast=True)
 
-@app.route('/chat')
+@app.route('/chat', methods=["GET", "POST"])
 @login_required
 def message():
     name = db.execute("SELECT username FROM users WHERE id = ?", session["user_id"])
