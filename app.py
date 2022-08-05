@@ -219,7 +219,7 @@ def add():
 @login_required
 def table():
     laters=db.execute("SELECT * FROM movie WHERE id IN (SELECT movie_id FROM users_history WHERE status='watch later' AND user_id=?)", session["user_id"])
-    watched = db.execute("SELECT * FROM movie WHERE id IN (SELECT movie_id FROM users_history WHERE status='watched' AND user_id=?)", session["user_id"])
+    watched = db.execute("SELECT * FROM movie WHERE id IN (SELECT movie_id FROM users_history WHERE status='watched' AND user_id=?) ORDER BY title", session["user_id"])
     return render_template('main.html',watched=watched, laters=laters)
 
 

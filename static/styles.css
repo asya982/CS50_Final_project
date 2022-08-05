@@ -216,13 +216,13 @@ option{
   background-color: linear-gradient(white, pink);
   border: #18181a 1px solid;
   border-radius: 15px;
-  height: 200px;
+  height: 300px;
   padding-left: 25px;
   padding-right: 25px;
   margin-top: 10%;
   margin-left: 25%;
   margin-right: 25%;
-  overflow-y: auto;
+  overflow: auto;
   font-family: 'DM Serif Display', serif;
 }
 
