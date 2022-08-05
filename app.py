@@ -228,6 +228,9 @@ def table():
 @login_required
 def message():
     if request.method == "POST":
+        if not request.form.get("message"):
+            return redirect("/chat")
+
         if db.execute("SELECT COUNT(id) FROM chat")[0]["COUNT(id)"] > 75:
             db.execute("DELETE FROM chat WHERE id IN (SELECT id FROM chat LIMIT 10);")
 
