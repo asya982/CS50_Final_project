@@ -1,4 +1,3 @@
-from asyncio import transports
 import re
 
 from random import randrange, choice
@@ -17,7 +16,7 @@ from helpers import apology, login_required
 app = Flask(__name__)
 
 app.config['SECRET'] = 'secret2228'
-socketio = SocketIO(app,{transports: ['websocket']}) #cors_allowed_origins='*', )
+socketio = SocketIO(app, cors_allowed_origins='*')
 
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
