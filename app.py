@@ -232,5 +232,5 @@ def message():
     return render_template('chat.html', name=name)
 
 if __name__ == '__main__':
-    socketio.run(app, host='movie4night.herokuapp.com',  debug=True) #, port="5001",) 
+    socketio.run(app, debug=True) #, port="5001",) 
 
