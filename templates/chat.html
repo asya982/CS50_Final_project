@@ -5,39 +5,40 @@
 {% endblock %}
 
 {% block title %}
-    messages
+messages
 {% endblock %}
 
 {% block main %}
+
 <body>
     <script type="text/javascript">
         let shtuka = 0;
         let delid = 1;
-        
+
 
         function buttonUndisable() {
             document.getElementById("sendBtn").disabled = false;
         }
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             let input = document.getElementById("message");
-            input.addEventListener("keypress", function(event) {
+            input.addEventListener("keypress", function (event) {
                 if (event.key === "Enter") {
-                event.preventDefault();
-                document.getElementById("sendBtn").click();
+                    event.preventDefault();
+                    document.getElementById("sendBtn").click();
                 }
             });
 
-            let socket = io.connect("https://movie4night.herokuapp.com")
-            socket.on('connect', function() {
+            let socket = io.connect("https://movie4night.herokuapp.com:5001")
+            socket.on('connect', function () {
                 socket.send("User connected!");
             });
 
-            socket.on('message', function(data) {
+            socket.on('message', function (data) {
                 $('#messages').append($('<p id="' + shtuka + '">').text(data));
             });
 
-            $('#sendBtn').on('click', function() {
+            $('#sendBtn').on('click', function () {
                 let message = $('#message').val().trim()
                 if (message === '' || message.length > 255) {
                     return;
@@ -50,12 +51,12 @@
                     delid++;
                 }
                 shtuka++;
-                let intervalId = window.setInterval(function() {
+                let intervalId = window.setInterval(function () {
                     var elem = document.getElementById('chat');
                     elem.scrollTop = elem.scrollHeight;
                 });
                 setTimeout(buttonUndisable, 1000);
-                setTimeout(function() {
+                setTimeout(function () {
                     window.clearInterval(intervalId);
                 }, 500);
             });
@@ -63,7 +64,7 @@
     </script>
     <div id="chat">
         <h3><u>CHAT</u></h3>
-        
+
         <div id="messages">
 
         </div>
