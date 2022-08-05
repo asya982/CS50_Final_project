@@ -9,14 +9,13 @@ from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
-from flask_socketio import SocketIO, send
+
 
 from helpers import apology, login_required
 
 app = Flask(__name__)
 
-app.config['SECRET'] = 'secret2228'
-socketio = SocketIO(app, cors_allowed_origins='*')
+
 
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -224,18 +223,24 @@ def table():
     return render_template('main.html',watched=watched, laters=laters)
 
 
-@socketio.on('message')
-def handle_message(message):
-    print("Recieved message: " + message)
-    if message != "User connected!":
-        send(message, broadcast=True)
 
 @app.route('/chat', methods=["GET", "POST"])
 @login_required
 def message():
-    name = db.execute("SELECT username FROM users WHERE id = ?", session["user_id"])
-    return render_template('chat.html', name=name)
+    if request.method == "POST":
+        if db.execute("SELECT COUNT(id) FROM chat")[0]["COUNT(id)"] > 75:
+            db.execute("DELETE FROM chat WHERE id IN (SELECT id FROM chat LIMIT 10);")
+
+        now = datetime.now().strftime("%H:%M")
+        message = request.form.get('message')
+        user = db.execute("SELECT username FROM users WHERE id = ?", session["user_id"])[0]['username']
+        db.execute("INSERT INTO chat (sendername, message, time) VALUES (?, ?, ?)", user, message, now)
+        return redirect("/chat")
+    else:
+        name = db.execute("SELECT username FROM users WHERE id = ?", session["user_id"])
+        messages = db.execute("SELECT * FROM chat")
+        return render_template('chat.html', name=name, messages=messages)
 
 if __name__ == '__main__':
-    socketio.run(app) 
+    app.run(app) 
 

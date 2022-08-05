@@ -12,66 +12,29 @@ messages
 
 <body>
     <script type="text/javascript">
-        let shtuka = 0;
-        let delid = 1;
-
-
-        function buttonUndisable() {
-            document.getElementById("sendBtn").disabled = false;
-        }
-
         $(document).ready(function () {
-            let input = document.getElementById("message");
-            input.addEventListener("keypress", function (event) {
-                if (event.key === "Enter") {
-                    event.preventDefault();
-                    document.getElementById("sendBtn").click();
-                }
+            let intervalId = window.setInterval(function () {
+                var elem = document.getElementById('chat');
+                elem.scrollTop = elem.scrollHeight;
             });
+            setTimeout(function () {
+                window.clearInterval(intervalId);
+            }, 500);
+        });
 
-            let socket = io.connect("https://movie4night.herokuapp.com")
-            socket.on('connect', function () {
-                socket.send("User connected!");
-            });
-
-            socket.on('message', function (data) {
-                $('#messages').append($('<p id="' + shtuka + '">').text(data));
-            });
-
-            $('#sendBtn').on('click', function () {
-                let message = $('#message').val().trim()
-                if (message === '' || message.length > 255) {
-                    return;
-                }
-                document.getElementById("sendBtn").disabled = true;
-                socket.send($('#username').val() + ': ' + $('#message').val());
-                $('#message').val('');
-                if (shtuka >= 15) {
-                    document.getElementById(delid.toString()).innerHTML = '';
-                    delid++;
-                }
-                shtuka++;
-                let intervalId = window.setInterval(function () {
-                    var elem = document.getElementById('chat');
-                    elem.scrollTop = elem.scrollHeight;
-                });
-                setTimeout(buttonUndisable, 1000);
-                setTimeout(function () {
-                    window.clearInterval(intervalId);
-                }, 500);
-            });
-        })
     </script>
     <div id="chat">
         <h3><u>CHAT</u></h3>
 
         <div id="messages">
-
+            {% for i in messages %}
+            <p>{{ i["time"] }} : {{ i["sendername"] }} : {{ i ["message"] }}</p>
+            {% endfor %}
         </div>
     </div>
-
-    <input type="hidden" id="username" value="{{ name[0]['username'] }}">
-    <input type="text" id="message" placeholder="Message" class="shadow-sm bg-body rounded">
-    <button id="sendBtn" class="button-37 orange">Send</button>
+    <form action="/chat" method="post">
+        <input type="text" id="message" name="message" placeholder="Message" class="shadow-sm bg-body rounded" autofocus>
+        <button id="sendBtn" class="button-28">Send</button>
+    </form>
 </body>
 {% endblock %}
