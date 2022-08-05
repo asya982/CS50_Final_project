@@ -205,7 +205,12 @@ def add():
         genre = request.form.get("genre")
         image = request.form.get("image")
 
-        db.execute("INSERT INTO movie(title,rating,genre,image) VALUES(?,?,?,?)", title, rating, genre, image)
+
+        db.execute("INSERT INTO movie(title,rating,genre,image,site_rating) VALUES(?,?,?,?,?)", title, rating, genre, image, 5.0)
+
+        db.execute("INSERT INTO user_rating (film_id, rating, user_id) VALUES (?, ?, ?)", db.execute("SELECT id FROM movie WHERE title = ?", title)[0]['id'], 5.0, 0)
+
+
         return redirect("/add")
     else: 
         genres = db.execute("SELECT DISTINCT genre FROM movie")
