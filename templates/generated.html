@@ -9,6 +9,11 @@ Generate
 {% endblock %}
 
 {% block main %}
+<style>
+    html {
+    scroll-behavior: smooth;
+    }
+</style>
 <script>
     document.addEventListener("DOMContentLoaded", function(event) {
         let width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
@@ -38,7 +43,7 @@ Generate
     function scrollWin() {
             setTimeout(function(){ window.scrollBy(0, 300); }, 250);
         }
-  </script>
+</script>
 <div class="container-fluid" id="moviePoster" style="margin-top: 2%">
     <div class="row">
         <div class="col-sm-6 col-lg-6 mx-auto" id="moviePic">
