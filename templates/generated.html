@@ -16,6 +16,7 @@ Generate
             document.getElementById("cartochka").style.width = "100%";
             document.getElementById("moviePoster").style.marginTop = "10%";
             document.getElementById("moviePic").style.marginBottom = "5%";
+            document.getElementById("addButton").style.marginLeft = "0%";
 
             const nodeList = document.querySelectorAll(".star-widget label");
               for (let i = 0; i < nodeList.length; i++) {
@@ -25,6 +26,7 @@ Generate
             document.getElementById("cartochka").style.width = "100%";
             document.getElementById("moviePoster").style.marginTop = "10%";
             document.getElementById("moviePic").style.marginBottom = "5%";
+            document.getElementById("addButton").style.marginLeft = "0%";
 
             
             const nodeList = document.querySelectorAll(".star-widget label");
@@ -75,7 +77,7 @@ Generate
                                             <label for="rate-2" class="fas fa-star"></label>
                                             <input type="radio" name="rate" id="rate-1" value="1.0">
                                             <label for="rate-1" class="fas fa-star"></label>
-                                            <button type="submit" class="btn btn-dark" name="watched" style="margin-left:5%;" value="{{ film[0]['id'] }}">Add</button>
+                                            <button id="addButton" type="submit" class="btn btn-dark" name="watched" style="margin-left:5%;" value="{{ film[0]['id'] }}">Add</button>
                                         </form>
                                     </div>
                                 </div>
