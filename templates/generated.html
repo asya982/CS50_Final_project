@@ -9,12 +9,22 @@ Generate
 {% endblock %}
 
 {% block main %}
-<div class="container-fluid" style="margin-top: 2%">
+<script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+        let width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+        if (width < 800) {
+            document.getElementById("cartochka").style.width = "100%";
+            document.getElementById("moviePoster").style.marginTop = "10%";
+            document.getElementById("moviePic").style.marginBottom = "5%";
+        }
+    });
+  </script>
+<div class="container-fluid" id="moviePoster" style="margin-top: 2%">
     <div class="row">
-        <div class="col-sm-6 col-lg-6 mx-auto">
+        <div class="col-sm-6 col-lg-6 mx-auto" id="moviePic">
             <img src="{{ film[0]['image'] }}" alt="filmtitle" class="img-fluid" style="width: 55%;">
         </div>
-        <div class="col-sm-6 card"  style="width: 40%; margin-right: 7%;">
+        <div class="col-sm-6 card" id="cartochka" style="width: 40%; margin-right: 7%;">
             {% for i in film %}
             <h2> {{ i["title"] }} </h2>
             <ul class="list-group list-group-flush">
