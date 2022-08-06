@@ -35,6 +35,9 @@ Generate
               }
         }
     });
+    function scrollWin() {
+            setTimeout(function(){ window.scrollBy(0, 300); }, 250);
+        }
   </script>
 <div class="container-fluid" id="moviePoster" style="margin-top: 2%">
     <div class="row">
@@ -56,7 +59,7 @@ Generate
                 <div class="accordion accordion-flush" id="accordionFlushExample" style="margin-top:3%">
                     <div class="accordion-item" style="justify-content: center;">
                         <h2 class="accordion-header" id="flush-headingOne" >
-                            <button class="accordion-button collapsed w-50 mx-auto shadow-sm" type="button" data-bs-toggle="collapse"
+                            <button onclick="scrollWin()" class="accordion-button collapsed w-50 mx-auto shadow-sm" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#flush-collapseOne" aria-expanded="false"
                                 aria-controls="flush-collapseOne">
                                 Add to watched
