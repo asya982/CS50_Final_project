@@ -12,10 +12,25 @@ Generate
 <script>
     document.addEventListener("DOMContentLoaded", function(event) {
         let width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
-        if (width < 800) {
+        if (width < 400) {
             document.getElementById("cartochka").style.width = "100%";
             document.getElementById("moviePoster").style.marginTop = "10%";
             document.getElementById("moviePic").style.marginBottom = "5%";
+
+            const nodeList = document.querySelectorAll(".star-widget label");
+              for (let i = 0; i < nodeList.length; i++) {
+                nodeList[i].style.fontSize = "18px";
+              }
+        } else if (width < 800) {
+            document.getElementById("cartochka").style.width = "100%";
+            document.getElementById("moviePoster").style.marginTop = "10%";
+            document.getElementById("moviePic").style.marginBottom = "5%";
+
+            
+            const nodeList = document.querySelectorAll(".star-widget label");
+              for (let i = 0; i < nodeList.length; i++) {
+                nodeList[i].style.fontSize = "22px";
+              }
         }
     });
   </script>
@@ -51,7 +66,7 @@ Generate
                                     <div class="star-widget">
                                         <form action="/add_to_watched" method="post">
                                             <input type="radio" name="rate" id="rate-5" value="5.0">
-                                            <label for="rate-5" class="fas fa-star"></label>
+                                            <label for="rate-5" class="fas fa-star" style="padding-right: 7%;"></label>
                                             <input type="radio" name="rate" id="rate-4" value="4.0">
                                             <label for="rate-4" class="fas fa-star"></label>
                                             <input type="radio" name="rate" id="rate-3" value="3.0">
@@ -60,7 +75,7 @@ Generate
                                             <label for="rate-2" class="fas fa-star"></label>
                                             <input type="radio" name="rate" id="rate-1" value="1.0">
                                             <label for="rate-1" class="fas fa-star"></label>
-                                            <button type="submit" class="btn btn-dark" name="watched" style="margin-left:10%;" value="{{ film[0]['id'] }}">Add</button>
+                                            <button type="submit" class="btn btn-dark" name="watched" style="margin-left:5%;" value="{{ film[0]['id'] }}">Add</button>
                                         </form>
                                     </div>
                                 </div>
