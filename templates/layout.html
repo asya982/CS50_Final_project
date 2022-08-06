@@ -34,6 +34,15 @@
 </head>
 
 <body style="background-color: white;">
+  <script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+          let width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+          if (width < 800) {
+              document.getElementById("555").style.fontSize = "8vw";
+              }
+          }
+      );
+  </script>
   <nav class="navbar fixed-top">
     <div class="container-fluid">
       <a class="navbar-brand" href="/" id="text" style="color:black">
@@ -48,11 +57,11 @@
       <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
         <div class="offcanvas-header">
           <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" style="color: white; font-family:'Courier New', Courier, monospace;font-size: 2vw; padding-top: 0;">X</button>
+          <button id="555" type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" style="color: white; font-family:'Courier New', Courier, monospace;font-size: 2vw; padding-top: 0;">X</button>
         </div>
         <div class="offcanvas-body">
           {% if session["user_id"] %}
-          <ul class="navbar-nav me-auto mt-2">
+          <ul id="707" class="navbar-nav me-auto mt-2">
             <li class="nav-item"><a class="nav-link" href="/watched">Watched</a></li>
             <li class="nav-item"><a class="nav-link" href="/">Generate</a></li>
             <li class="nav-item"><a class="nav-link" href="/chat">Chat</a></li>
@@ -75,7 +84,7 @@
   <main class="container-fluid py-5 text-center">
     {% if get_flashed_messages() %}
     <header style="padding-top: 20px;">
-      <div class="alert alert-secondary mb-0 mx-auto text-center mt-4" role="alert">
+      <div class="alert alert-secondary mb-0 mx-auto text-center" role="alert">
         {{ get_flashed_messages() | join(" ") }}
       </div>
     </header>

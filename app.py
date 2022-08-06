@@ -29,7 +29,6 @@ db = SQL("sqlite:///movie4night.db")
 
 @app.route('/')
 def index():
-    print(generate_password_hash("123"))
     genres = db.execute("SELECT DISTINCT genre FROM movie")
     return render_template('index.html', genres = genres)
 
@@ -107,6 +106,7 @@ def logout():
     session.clear()
 
     # Redirect user to login form
+    flash("Logged out!")
     return redirect("/")
 
 @app.route('/generate', methods=['POST'])
@@ -141,7 +141,6 @@ def generate():
             added = db.execute("SELECT status FROM  users_history WHERE movie_id=?  AND user_id=?",movie_id,session['user_id'])[0]['status']
         except:
             added = None
-            print("хуйня")
         db.execute("UPDATE movie SET site_rating = ? WHERE id = ?", site_rating[0]["AVG(rating)"], movie_id)
         return render_template('generated.html', film=film, site_rating=site_rating,added=added)
 
@@ -186,9 +185,11 @@ def add_to_watched():
     site_rating = db.execute("SELECT AVG(rating), COUNT(rating) FROM user_rating WHERE film_id = ?", request.form.get('watched'))
     db.execute("UPDATE movie SET site_rating = ? WHERE id = ?", site_rating[0]["AVG(rating)"], request.form.get('watched'))
 
-
-    print("totochno to sho trebo" ,request.form.get('watched'))
-    flash("Added to watched")
+    numOfWathcedFilms = db.execute("SELECT COUNT(id) FROM users_history WHERE user_id = ? AND status = 'watched'", session["user_id"])[0]["COUNT(id)"]
+    if numOfWathcedFilms == 10:
+        flash("Congratulations, you've have unlocked an add page!")
+    else:
+        flash("Added to watched")
     return redirect("/")
 
 
@@ -216,8 +217,14 @@ def add():
         db.execute("INSERT INTO user_rating (film_id, rating, user_id) VALUES (?, ?, ?)", db.execute("SELECT id FROM movie WHERE title = ?", title)[0]['id'], 5.0, 0)
 
 
+
         return redirect("/add")
     else: 
+        numOfWathcedFilms = db.execute("SELECT COUNT(id) FROM users_history WHERE user_id = ? AND status = 'watched'", session["user_id"])[0]["COUNT(id)"]
+        if numOfWathcedFilms < 10:
+            flash("To unlock this feature you need to watch at least 10 movies from the site <3")
+            return redirect("/")
+
         genres = db.execute("SELECT DISTINCT genre FROM movie")
         return render_template('add.html', genres = genres)
 

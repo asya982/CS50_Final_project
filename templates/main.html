@@ -25,6 +25,11 @@
               for (let i = 0; i < nodeList.length; i++) {
                 nodeList[i].style.paddingTop = "20px";
               }
+
+              const formFont = document.querySelectorAll("#formfont");
+              for (let i = 0; i < formFont.length; i++) {
+                formFont[i].style.fontSize = "13px";
+              }
           }
       });
     </script>
@@ -79,18 +84,18 @@
               <td class="text-end">{{ "%.2f"|format(late['site_rating']) }}</td>
               <td class="text-end">{{ late['rating'] }}</td>
               <td class="text-end">
-                <form action="/add_to_watched" method="post">
-                    <input type="radio" name="rate" id="rate-5" value="5.0" style="display:none">
-                    <label for="rate-5" class="fas fa-star"></label>
-                    <input type="radio" name="rate" id="rate-4" value="4.0" style="display:none">
-                    <label for="rate-4" class="fas fa-star"></label>
-                    <input type="radio" name="rate" id="rate-3" value="3.0" style="display:none">
-                    <label for="rate-3" class="fas fa-star"></label>
-                    <input type="radio" name="rate" id="rate-2" value="2.0" style="display:none">
-                    <label for="rate-2" class="fas fa-star"></label>
-                    <input type="radio" name="rate" id="rate-1" value="1.0" style="display:none">
-                    <label for="rate-1" class="fas fa-star"></label>
-                    <button type="submit" class="btn btn-dark" name="watched" style="margin-left:10%;" value="{{ late['id'] }}">Add</button>
+                <form id="formfont" action="/add_to_watched" method="post" style="font-size: 20px;">
+                    <input type="radio" name="rate" id="{{ late['id']}}-5" value="5.0" style="display: none;">
+                    <label for="{{ late['id']}}-5">★</label>
+                    <input type="radio" name="rate" id="{{ late['id']}}-4" value="4.0" style="display: none;">
+                    <label for="{{ late['id']}}-4">★</label>
+                    <input type="radio" name="rate" id="{{ late['id']}}-3" value="3.0" style="display: none;">
+                    <label for="{{ late['id']}}-3">★</label>
+                    <input type="radio" name="rate" id="{{ late['id']}}-2" value="2.0" style="display: none;">
+                    <label for="{{ late['id']}}-2">★</label>
+                    <input type="radio" name="rate" id="{{ late['id']}}-1" value="1.0" style="display: none;">
+                    <label for="{{ late['id']}}-1">★</label>
+                    <button type="submit" class="btn btn-dark" name="watched" style="margin-left:10%; padding: 5px 10px;" value="{{ late['id'] }}">Add</button>
                 </form>
               </td>
             </tr>
