@@ -217,8 +217,8 @@ def add():
         db.execute("INSERT INTO user_rating (film_id, rating, user_id) VALUES (?, ?, ?)", db.execute("SELECT id FROM movie WHERE title = ?", title)[0]['id'], 5.0, 0)
 
 
-
-        return redirect("/add")
+        flash("Added!")
+        return redirect("/")
     else: 
         numOfWathcedFilms = db.execute("SELECT COUNT(id) FROM users_history WHERE user_id = ? AND status = 'watched'", session["user_id"])[0]["COUNT(id)"]
         if numOfWathcedFilms < 10:
