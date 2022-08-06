@@ -19,7 +19,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
   <link href="static/img/woman.png" rel="icon">
-  <script src="https://kit.fontawesome.com/2905b66f44.js" crossorigin="anonymous"></script>
+  
 
   <link href="static/styles.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,15 +48,15 @@
       <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
         <div class="offcanvas-header">
           <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
-          <i class="fa-solid fa-xmark" style="color: white; font-size: 30px;" type="button" class="btn-close-light" data-bs-dismiss="offcanvas" aria-label="Close"></i>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" style="color: white; font-family:'Courier New', Courier, monospace;font-size: 6vw; padding-top: 0;">X</button>
         </div>
         <div class="offcanvas-body">
           {% if session["user_id"] %}
-          <ul class="navbar-nav me-auto mt-2" id="707">
-            <li class="nav-item"><a id="22" class="nav-link" href="/watched">Watched</a></li>
-            <li class="nav-item"><a id="22" class="nav-link" href="/">Generate</a></li>
-            <li class="nav-item"><a id="22" class="nav-link" href="/chat">Chat</a></li>
-            <li class="nav-item"><a id="22" class="nav-link" href="/add">Add</a></li>
+          <ul class="navbar-nav me-auto mt-2">
+            <li class="nav-item"><a class="nav-link" href="/watched">Watched</a></li>
+            <li class="nav-item"><a class="nav-link" href="/">Generate</a></li>
+            <li class="nav-item"><a class="nav-link" href="/chat">Chat</a></li>
+            <li class="nav-item"><a class="nav-link" href="/add">Add</a></li>
           </ul>
           <ul class="navbar-nav ms-auto mt-2 down">
             <li class="nav-item"><a class="nav-link" href="/changepass">Change Password</a></li>
