@@ -6,7 +6,7 @@
 
 {% block main %}
 <div style="margin-top: 10%;">
-    <small class="text-muted">Password must contain digits, English letters in upper and lowercase.</small>
+    <h6 style="color: grey; font-family: 'DM Serif Display', serif; margin-bottom: 3%;">Password must be at least 8 characters (digits, English letters in upper and lowercase)</h6>
     <form action="/changepass" method="post">
         <div class="mb-3">
             <input class="form-control mx-auto w-auto" id="oldpassword" name="oldpassword" placeholder="Old password" type="password">
