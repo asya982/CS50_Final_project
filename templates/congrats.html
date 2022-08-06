@@ -217,7 +217,16 @@
 
         }
     </style>
-
+        <script>
+            document.addEventListener("DOMContentLoaded", function(event) {
+                let width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+                if (width < 800) {
+                  document.getElementById("header1").style.fontSize = "25px";
+                  document.getElementById("header2").style.fontSize = "20px";
+                  document.querySelector("button").style.left = "35%";
+                }
+            });
+          </script>
 
     <div class="area">
         <ul class="circles">
@@ -234,9 +243,11 @@
         </ul>
     </div>
     <div class="context container-fluid">
-        <h1 style="font-weight:normal">Congratulation! You've watched all the movies!</h1>
-        <h5 style="font-weight: normal">Here you go, take a cookie</h5>
-        <a href="/"><button class="button-37" type="button">Take🍪</button></a>
+        <h1 id="header1" style="font-weight:normal">Congratulation! You've watched all the movies!</h1>
+        <h5 id="header2" style="font-weight: normal">Here you go, take a cookie</h5>
+        <div id="takeCookieButton">
+            <a href="/"><button class="button-37" type="button">Take🍪</button></a>
+        </div>
     </div>
 </body>
 
