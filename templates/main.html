@@ -18,18 +18,28 @@
       document.addEventListener("DOMContentLoaded", function(event) {
           let width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
           if (width < 800) {
-              document.getElementById("707").style.margin = "7.5px 0px";
-              
+            document.getElementById("707").style.margin = "7.5px 0px";
+          
+            const nodeList = document.querySelectorAll(".navbar-nav>li>a");
+            for (let i = 0; i < nodeList.length; i++) {
+              nodeList[i].style.paddingTop = "20px";
+            }
 
-              const nodeList = document.querySelectorAll(".navbar-nav>li>a");
-              for (let i = 0; i < nodeList.length; i++) {
-                nodeList[i].style.paddingTop = "20px";
-              }
+            const formFont = document.querySelectorAll("#formfont");
+            for (let i = 0; i < formFont.length; i++) {
+              formFont[i].style.fontSize = "16px";
+            }
+            
+            const containerFluid = document.querySelectorAll(".container-fluid");
+            for (let i = 0; i < containerFluid.length; i++) {
+              containerFluid[i].style.paddingRight = "1px";
+              containerFluid[i].style.paddingLeft = "1px";
+            }
 
-              const formFont = document.querySelectorAll("#formfont");
-              for (let i = 0; i < formFont.length; i++) {
-                formFont[i].style.fontSize = "12px";
-              }
+            const addButton = document.querySelectorAll("#addButton");
+            for (let i = 0; i < addButton.length; i++) {
+              addButton[i].style.marginRight = "17%";
+            } 
           }
       });
     </script>
@@ -95,7 +105,7 @@
                     <label for="{{ late['id']}}-2">★</label>
                     <input type="radio" name="rate" id="{{ late['id']}}-1" value="1.0" style="display: none;">
                     <label for="{{ late['id']}}-1">★</label>
-                    <button type="submit" class="btn btn-dark" name="watched" style="margin-left:10%; padding: 5px 10px;" value="{{ late['id'] }}">Add</button>
+                    <button id="addButton" type="submit" class="btn btn-dark" name="watched" style="margin-left:7%; padding: 5px 10px;" value="{{ late['id'] }}">Add</button>
                 </form>
               </td>
             </tr>
