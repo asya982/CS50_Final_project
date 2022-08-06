@@ -14,6 +14,20 @@
       top:50%;
     }
   </style>
+    <script>
+      document.addEventListener("DOMContentLoaded", function(event) {
+          let width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+          if (width < 800) {
+              document.getElementById("707").style.margin = "7.5px 0px";
+              
+
+              const nodeList = document.querySelectorAll(".navbar-nav>li>a");
+              for (let i = 0; i < nodeList.length; i++) {
+                nodeList[i].style.paddingTop = "20px";
+              }
+          }
+      });
+    </script>
 {% endblock %}
 
 {% block title %}

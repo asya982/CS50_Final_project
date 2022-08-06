@@ -10,6 +10,9 @@ Main
         let width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
         if (width < 800) {
             document.getElementById("generate").style.width = "220%";
+            document.getElementById("generate").style.fontSize = "7vw";
+            document.getElementById("genres").style.fontSize = "3vw";
+            document.getElementById("formochka").style.paddingTop = "20%";
         }
     });
 </script>
@@ -23,7 +26,7 @@ Main
                     </div>
                 </div>
                 <div class="row mx-auto">
-                    <div class="col-6 col-sm-4" style="padding-top: 15%; margin-left: 27%;">
+                    <div id="formochka" class="col-6 col-sm-4" style="padding-top: 15%; margin-left: 27%;">
                         <select id="genres" name="genres" class="form-select w-100" aria-label=".form-select">
                             <option selected value="all">All genres</option>
                             {% for genre in genres %}
