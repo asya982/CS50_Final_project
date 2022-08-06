@@ -77,6 +77,7 @@
 
 .orange {
   background-color: black;
+  padding: 6px 20px;
   border: 1px solid black;
 }
 
@@ -98,11 +99,14 @@
 
 
 .offcanvas-body{
-  font-size: 2vw;
+  font-size: x-large;
   font-family:'DM Serif Display', serif;
   background: #fff;
 }
 
+#offcanvasNavbarLabel {
+  font-size: xx-large;
+}
 
 a:link, #btn {color:black;}
 a:visited {color:black;}

@@ -29,6 +29,7 @@ db = SQL("sqlite:///movie4night.db")
 
 @app.route('/')
 def index():
+    print(generate_password_hash("123"))
     genres = db.execute("SELECT DISTINCT genre FROM movie")
     return render_template('index.html', genres = genres)
 
@@ -37,15 +38,20 @@ def register():
     """Register user"""
     if request.method == "POST":  # if method post do one thing if not another
         if not request.form.get("username"):
-            return redirect('/changepass')
+            flash("Must provide username!")
+            return redirect('/register')
         elif not request.form.get("password"):
-            return redirect('/changepass')
+            flash("Must provide password!")
+            return redirect('/register')
         elif request.form.get("password") != request.form.get("confirmation"):
-            return redirect('/changepass')
-        elif not re.search(r"[\d]", request.form.get("password")):
-            return redirect('/changepass')
+            flash("Passwords are not the same!")
+            return redirect('/register')
+        elif not re.search(r'(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[A-Za-z0-9]{8,}', request.form.get("password")):
+            flash("Password does not meet the requirements!")
+            return redirect('/register')
         elif len(db.execute("SELECT username FROM users WHERE username = ?", request.form.get("username"))) != 0:
-            return redirect('/changepass')
+            flash("Username is already taken!")
+            return redirect('/register')
 
         db.execute("INSERT INTO users (username, hash) VALUES (?, ?)",
                    request.form.get("username"), generate_password_hash(request.form.get("password")))
@@ -155,8 +161,8 @@ def changePass():
         elif request.form.get("password") != request.form.get("confirmation"):
             flash("Passwords do not match!")
             return redirect('/changepass')
-        elif not re.search(r"[\d]", request.form.get("password")):
-            flash("Password must contain digits!")
+        elif not re.search(r"(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[A-Za-z0-9]{8,}", request.form.get("password")):
+            flash("Password does not meet the requirements")
             return redirect('/changepass')
         db.execute("UPDATE users SET hash = ? WHERE id = ?", generate_password_hash(request.form.get("password")), session["user_id"])
         flash("Your password has changed!")
