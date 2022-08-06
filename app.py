@@ -174,6 +174,9 @@ def changePass():
 @login_required
 def add_to_watched():
     id = db.execute("SELECT COUNT(id) FROM users_history")[0]['COUNT(id)'] + 1
+    if not request.form.get('rate'):
+        flash("You did not rated the movie!")
+        return redirect("/")
     rate=float(request.form.get('rate'))
 
     if db.execute("SELECT * FROM users_history WHERE user_id = ? AND movie_id = ? AND status = 'watch later'", session["user_id"], request.form.get('watched')):
