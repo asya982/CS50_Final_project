@@ -217,7 +217,7 @@ option{
 }
 
 #chat {
-  background-color: linear-gradient(white, pink);
+  background-color: white;
   border: #18181a 1px solid;
   border-radius: 15px;
   height: 300px;

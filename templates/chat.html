@@ -24,16 +24,24 @@ messages
 
     </script>
     <div id="chat">
-        <h3><u>CHAT</u></h3>
-
+        <h3 class="sticky-top" style="background-color: white;"><u>CHAT</u></h3>
         <div id="messages">
             {% for i in messages %}
-            <p>{{ i["time"] }} : {{ i["sendername"] }} : {{ i ["message"] }}</p>
+            {% if name[0]['username'] == i['sendername'] %}
+            <div class="text-break text-end">
+                <p><b>{{ i["sendername"] }}:</b> {{ i ["message"] }}<small style="color: grey; font-size: 60%"> {{i["time"] }}</small></p>
+            </div>
+            {%else%}
+            <div class="text-break text-start">
+                <p><b>{{ i["sendername"] }}:</b> {{ i ["message"] }}<small style="color: grey; font-size: 60%"> {{i["time"] }}</small></p>
+            </div>
+            {% endif %}
             {% endfor %}
         </div>
     </div>
     <form action="/chat" method="post">
-        <input type="text" id="message" name="message" placeholder="Message" class="shadow-sm bg-body rounded" autofocus required autocomplete="off">
+        <input type="text" id="message" name="message" placeholder="Message" class="shadow-sm bg-body rounded" autofocus
+            required autocomplete="off">
         <button id="sendBtn" class="button-28">Send</button>
     </form>
 </body>
