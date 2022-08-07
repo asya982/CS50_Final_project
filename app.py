@@ -212,6 +212,9 @@ def add_to_laters():
 @login_required
 def add():
     if request.method == 'POST':
+        if not request.form.get("title") or not request.form.get("rating") or not request.form.get("genre") or not request.form.get("image"):
+            flash("You did not provided all fields!")
+            return redirect("/")
         title = request.form.get("title")
         rating = request.form.get("rating")
         genre = request.form.get("genre")
