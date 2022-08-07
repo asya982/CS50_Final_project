@@ -1,7 +1,10 @@
 # CS50_Final_project - Movie4Night
-### Video Demo:  <URL HERE>
+### Video Demo:  https://youtu.be/12irR3NhJ0E
 #### Description:
 This web application will help everyone with 'don`t knowning what to watch' problem. It randomly generate a movie from database and, if chosen, this film could be a particular genre.
+****
+# heplers.py:
+We used 2 CS50's function from Finance - `apology`(in order to create flash messages) adn `login_required` (to create features which will only be available for logined users)
 # app.py: 
 In app.py at first we have imports of needed libraries and functions from these libraries. 
 Then we have a configuration of the app and database linking.
@@ -28,4 +31,28 @@ Else we validate and recieve data and add it to db.
 Is the route where we simply render a page with data.
 ## route /chat
 In the las route we have a message function that accepts message from user via post method, validates the data and inserts it into the db. If the messages are to many, we delete some. Get method renders a page with a relative data.
- 
+****
+# Templates:
+### layout.html: 
+contains an origin html template which is applied to all site's pages. It has Bootstrap's navbar which is different (thanks to Jinja) for loggined users and not, and also alert messages if flashed is needed.
+### register.html:
+contains form to register new user. Password is requiered to be at least 8 symbols long, contain digits and both upper and lowercase letters.
+### login.html:
+contains form to log in a user
+### changepass.html:
+contain a form to change user's password
+### index.html:
+page with *generate* button and (optionally) genre select menu, which can fulfill the main purpose of the site - generate the random film from data base.
+### generated.html:
+contains randomly generated one film's info (poster, title, IMDB's rating, custom genre and rating from our users) it's also has *generate again* button, *watched* to rate film and add it to 'watched' list and *whatch later* button to add it to relative list 
+### main.html:
+contains a table which keeps track of every film our user whatched and wants to watch later.
+### add.html:
+a form to add some new film to data base. it's available only when user watched at least 10 filmes
+### chat.html:
+a live chat where all users can discuss something
+### congrats.html:
+renders if user watched every films from data base
+
+# CSS and Responsive design:
+We used a lot of Bootstrap's elements in order to make our site look beautiful and responsive. But to make it perfectly fit on mobile devices we decided to add on several pages JavaScrpit code to change element's size and/or position according to user's screen resolution.
