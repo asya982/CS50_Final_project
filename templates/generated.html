@@ -9,6 +9,11 @@ Generate
 {% endblock %}
 
 {% block main %}
+<style>
+    * {
+    scroll-behavior: smooth;
+    }
+</style>
 <script>
     document.addEventListener("DOMContentLoaded", function(event) {
         let width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
@@ -35,7 +40,10 @@ Generate
               }
         }
     });
-  </script>
+    function scrollWin() {
+            setTimeout(function(){ window.scrollBy(0, 300); }, 250);
+        }
+</script>
 <div class="container-fluid" id="moviePoster" style="margin-top: 2%">
     <div class="row">
         <div class="col-sm-6 col-lg-6 mx-auto" id="moviePic">
@@ -56,7 +64,7 @@ Generate
                 <div class="accordion accordion-flush" id="accordionFlushExample" style="margin-top:3%">
                     <div class="accordion-item" style="justify-content: center;">
                         <h2 class="accordion-header" id="flush-headingOne" >
-                            <button class="accordion-button collapsed w-50 mx-auto shadow-sm" type="button" data-bs-toggle="collapse"
+                            <button onclick="scrollWin()" class="accordion-button collapsed w-50 mx-auto shadow-sm" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#flush-collapseOne" aria-expanded="false"
                                 aria-controls="flush-collapseOne">
                                 Add to watched

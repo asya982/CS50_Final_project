@@ -109,40 +109,43 @@ def logout():
     flash("Logged out!")
     return redirect("/")
 
-@app.route('/generate', methods=['POST'])
+@app.route('/generate', methods=['POST', 'GET'])
 def generate():
-    genre = request.form.get("genres")
-    movies = list()
-    added = str()
-    try:
-        user_id = session['user_id']
-    except:
-        if str(genre) != "all":
-            for movie in db.execute("SELECT id FROM movie WHERE genre = ?",genre):
-                movies.append(movie['id'])
-        else:
-            for movie in db.execute("SELECT id FROM movie"):
-                movies.append(movie['id'])
+    if request.method == 'GET':
+        return redirect("/")
     else:
-        if str(genre) != "all":
-            for movie in db.execute("SELECT id FROM movie WHERE genre = ? AND id NOT IN (SELECT movie_id FROM users_history WHERE user_id = ? AND status ='watched')",genre,user_id):
-                movies.append(movie['id'])
+        genre = request.form.get("genres")
+        movies = list()
+        added = str()
+        try:
+            user_id = session['user_id']
+        except:
+            if str(genre) != "all":
+                for movie in db.execute("SELECT id FROM movie WHERE genre = ?",genre):
+                    movies.append(movie['id'])
+            else:
+                for movie in db.execute("SELECT id FROM movie"):
+                    movies.append(movie['id'])
         else:
-            for movie in db.execute("SELECT id FROM movie WHERE id NOT IN (SELECT movie_id FROM users_history WHERE user_id = ? AND status ='watched')",user_id):
-                movies.append(movie['id'])
-    finally:
-        try:
-            movie_id = choice(movies)
-        except:
-            return render_template('congrats.html')
-        film = db.execute("SELECT * FROM movie WHERE id = ?", movie_id)
-        site_rating = db.execute("SELECT AVG(rating), COUNT(rating) FROM user_rating WHERE film_id = ?", movie_id)
-        try:
-            added = db.execute("SELECT status FROM  users_history WHERE movie_id=?  AND user_id=?",movie_id,session['user_id'])[0]['status']
-        except:
-            added = None
-        db.execute("UPDATE movie SET site_rating = ? WHERE id = ?", site_rating[0]["AVG(rating)"], movie_id)
-        return render_template('generated.html', film=film, site_rating=site_rating,added=added)
+            if str(genre) != "all":
+                for movie in db.execute("SELECT id FROM movie WHERE genre = ? AND id NOT IN (SELECT movie_id FROM users_history WHERE user_id = ? AND status ='watched')",genre,user_id):
+                    movies.append(movie['id'])
+            else:
+                for movie in db.execute("SELECT id FROM movie WHERE id NOT IN (SELECT movie_id FROM users_history WHERE user_id = ? AND status ='watched')",user_id):
+                    movies.append(movie['id'])
+        finally:
+            try:
+                movie_id = choice(movies)
+            except:
+                return render_template('congrats.html')
+            film = db.execute("SELECT * FROM movie WHERE id = ?", movie_id)
+            site_rating = db.execute("SELECT AVG(rating), COUNT(rating) FROM user_rating WHERE film_id = ?", movie_id)
+            try:
+                added = db.execute("SELECT status FROM  users_history WHERE movie_id=?  AND user_id=?",movie_id,session['user_id'])[0]['status']
+            except:
+                added = None
+            db.execute("UPDATE movie SET site_rating = ? WHERE id = ?", site_rating[0]["AVG(rating)"], movie_id)
+            return render_template('generated.html', film=film, site_rating=site_rating,added=added)
 
 @app.route("/changepass", methods=["GET", "POST"])
 @login_required
@@ -174,6 +177,9 @@ def changePass():
 @login_required
 def add_to_watched():
     id = db.execute("SELECT COUNT(id) FROM users_history")[0]['COUNT(id)'] + 1
+    if not request.form.get('rate'):
+        flash("You did not rated the movie!")
+        return redirect("/")
     rate=float(request.form.get('rate'))
 
     if db.execute("SELECT * FROM users_history WHERE user_id = ? AND movie_id = ? AND status = 'watch later'", session["user_id"], request.form.get('watched')):
